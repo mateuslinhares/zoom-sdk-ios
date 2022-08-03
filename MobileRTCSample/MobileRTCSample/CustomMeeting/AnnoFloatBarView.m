@@ -272,7 +272,7 @@
         }
         else
         {
-            [annoService setToolType:MobileRTCAnnoTool_Arrow2];
+            [annoService setToolType:MobileRTCAnnoTool_Arrow];
         }
     }
 }

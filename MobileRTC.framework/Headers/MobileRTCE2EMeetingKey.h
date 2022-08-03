@@ -25,6 +25,6 @@
 /*!
  @brief Meeting session extra information.
  */
-@property (nonatomic, retain, readwrite) NSData * _Nonnull meetingIv;
+@property (nonatomic, retain, readwrite) NSData * _Nullable meetingIv;
 
 @end

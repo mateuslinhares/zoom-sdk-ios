@@ -132,4 +132,13 @@
     NSLog(@"---BO--- Host has left this BO");
 }
 
+- (void)onBOInfoUpdated:(NSString *_Nullable)boId;
+{
+    NSLog(@"---BO--- BO info updated");
+}
+
+- (void)onUnAssignedUserUpdated
+{
+    NSLog(@"---BO--- un-assigned user updated");
+}
 @end

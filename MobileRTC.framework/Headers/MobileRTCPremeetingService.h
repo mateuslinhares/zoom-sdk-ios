@@ -54,6 +54,15 @@ typedef enum {
 }PreMeetingError;
 
 /*!
+ @brief MobileRTCAlternativeHostInfo, It's used to schedule meetings and add alternate hosts.
+ */
+@interface MobileRTCAlternativeHostInfo : NSObject
+
+@property (nonatomic, retain) NSString * _Nullable email;
+
+@end
+
+/*!
  @brief It provides support for scheduling/editing/deleting meeting once logged in MobileRTC with working email or with SSO.
  @warning User should login MobileRTC before calling the method.
  */
@@ -350,41 +359,13 @@ typedef enum {
  @brief Set alternative host.
  @param hostList NSArray that contai MobileRTCAlternativeHostInfo object.
  */
-- (void)setAlternativeHostList:(NSArray *_Nonnull)hostList;
+- (void)setAlternativeHostList:(NSArray <MobileRTCAlternativeHostInfo *> *_Nonnull)hostList;
 
 /*!
  @brief Get alternative host list.
  @param enable YES means to enable language interpretation.
  */
-- (NSArray *_Nullable)getAlternativeHostInfoList;
-
-///*!
-// @brief Turn on or off Viop.
-// @param off YES means disable Voip
-// @waring - (void)turnOffVOIP:(BOOL)off has been deprecated, please use - (BOOL)setAudioOption:(MobileRTCMeetingItemAudioType)audioOption instead.
-// */
-//- (void)turnOffVOIP:(BOOL)off;
-//
-///*!
-// @brief Get Voip is on or off.
-// @return YES means Voip is off
-// @waring - (BOOL)isVOIPOff has been deprecated, please use - (MobileRTCMeetingItemAudioType)getAduioOption instead.
-// */
-//- (BOOL)isVOIPOff;
-//
-///*!
-// @brief Turn on or off Telephone.
-// @param off YES means disable Telephone
-// @waring - (void)turnOffTelephony:(BOOL)off has been deprecated, please use - (BOOL)setAudioOption:(MobileRTCMeetingItemAudioType)audioOption instead.
-// */
-//- (void)turnOffTelephony:(BOOL)off;
-//
-///*!
-// @brief Get Telephone is on or off.
-// @return YES means Telephone is off
-// @waring - (BOOL)isTelephonyOff has been deprecated, please use - (MobileRTCMeetingItemAudioType)getAduioOption instead.
-// */
-//- (BOOL)isTelephonyOff;
+- (NSArray <MobileRTCAlternativeHostInfo *> *_Nullable)getAlternativeHostInfoList;
 
 /*!
  @brief Set audio options in the meeting.
@@ -414,8 +395,15 @@ typedef enum {
 /*!
  @brief Get the content of email invitation.
  @return The content of email invitation.
+ @warning This interface will be deprecated, please stop using it. If the return value is NULL, you can try to call "asyncGetInviteEmailContent"
  */
-- (nullable NSString*)getInviteEmailContent;
+- (nullable NSString*)getInviteEmailContent DEPRECATED_ATTRIBUTE;
+
+/*!
+ @brief Synchronize the content of the email to invite the users to join the meeting.Once the function is called successfully, the user will receive the callback event via
+ @return result of the fucntion.
+ */
+- (BOOL)asyncGetInviteEmailContent;
 
 /*!
  @brief Set if enable the feature ONLY SINGED-IN USER CAN JOIN MEETING.
@@ -481,22 +469,13 @@ typedef enum {
  @param domain NSString type of domain array. 
  @return YES means that the method is called successfully, otherwise not.
  */
-- (BOOL)setSpecifiedDomain:(nullable NSArray*)domain;
+- (BOOL)setSpecifiedDomain:(nullable NSArray <NSString *> *)domain;
 
 /*!
  @brief Get specified domains in which users can join the current meeting once they signed in.
  @return The specified domains.
  */
-- (nullable NSArray *)getSpecifiedDomain;
-@end
-
-/*!
- @brief MobileRTCAlternativeHostInfo, It's used to schedule meetings and add alternate hosts.
- */
-@interface MobileRTCAlternativeHostInfo : NSObject
-
-@property (nonatomic, retain) NSString * _Nullable email;
-
+- (nullable NSArray <NSString *> *)getSpecifiedDomain;
 @end
 
 /*!
@@ -530,4 +509,12 @@ typedef enum {
  @param array The array of meeting items.
  */
 - (void)sinkListMeeting:(PreMeetingError)result withMeetingItems:(nonnull NSArray*)array;
+
+/*!
+ @brief Sink the event of get invite email content.
+ @param result The result of get invite email content. If the function succeeds, it will return PreMeetingError_Success.
+ @param meetingUniqueId The meeting ID that the content of meeting invite email belongs to.
+ @param content The content of meeting invite email.
+ */
+- (void)sinkGetInviteEmailContent:(PreMeetingError)result content:(NSString *_Nullable)content;
 @end

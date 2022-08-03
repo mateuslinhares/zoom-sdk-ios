@@ -20,6 +20,7 @@
 #import "SelectLanguageViewController.h"
 #import "ManageLanInterpreViewController.h"
 #import "InterpreterLanguageSelectViewController.h"
+#import "WebinarAtteedeeslistViewController.h"
 
 @interface BottomPanelView ()
 @property (strong, nonatomic)  CAGradientLayer      *gradientLayer;
@@ -283,7 +284,27 @@
         }
         case kTagButtonMore:
         {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+            NSString * meetingTypeString;
+            MobileRTCMeetingType type = [[[MobileRTC sharedRTC] getMeetingService] getMeetingType];
+            switch (type) {
+                case MobileRTCMeetingType_None:
+                    meetingTypeString = @"MeetingType:None";
+                    break;
+                case MobileRTCMeetingType_Normal:
+                    meetingTypeString = @"MeetingType:Normal";
+                    break;
+                case MobileRTCMeetingType_BreakoutRoom:
+                    meetingTypeString = @"MeetingType:BreakoutRoom";
+                    break;
+                case MobileRTCMeetingType_Webinar:
+                    meetingTypeString = @"MeetingType:Webinar";
+                    break;
+                default:
+                    meetingTypeString = @"MeetingType:None";
+                    break;
+            }
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:meetingTypeString
                                                                                      message:nil
                                                                               preferredStyle:UIAlertControllerStyleActionSheet];
             if (![[[MobileRTC sharedRTC] getMeetingService] isMeetingHost]
@@ -328,20 +349,6 @@
                     nav.modalPresentationStyle = UIModalPresentationFullScreen;
                     [[appDelegate topViewController] presentViewController:nav animated:YES completion:NULL];
                 }]];
-            }
-            
-            
-            if ([[[MobileRTC sharedRTC] getMeetingService] isQAEnabled]) {
-                [alertController addAction:[UIAlertAction actionWithTitle:@"QA"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction *action) {
-                                                                      AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
-                                                                      QAListViewController *VC = [[QAListViewController alloc] init];
-                                                                      UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
-                                                                      nav.modalPresentationStyle = UIModalPresentationFullScreen;
-                                                                      [[appDelegate topViewController] presentViewController:nav animated:YES completion:NULL];
-                                                                  }]];
             }
             
             if ([[[MobileRTC sharedRTC] getMeetingService] isBOMeetingEnabled]) {
@@ -423,7 +430,7 @@
                     }
                 }
                 MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
-                if ([ws isSupportWaitingRoom]) {
+                if ([ws isSupportWaitingRoom] && ([ms isMeetingHost] || [ms isMeetingCoHost])) {
                     if ([ws isWaitingRoomOnEntryFlagOn]) {
                         [alertController addAction:[UIAlertAction actionWithTitle:@"Disable Waiting Room On Entry"
                                                                             style:UIAlertActionStyleDefault
@@ -488,6 +495,124 @@
                                                                 _isRaiseHand = !_isRaiseHand;
                                                             }]];
             
+            if ([ms isMeetingHost] || [ms isMeetingCoHost]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Lower All Hand"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms lowerAllHand];
+                                                                }]];
+            }
+            
+            if ([ms isEmojiReactionEnabled]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Send reaction"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms sendEmojiReaction:MobileRTCEmojiReactionType_Clap reactionSkinTone:MobileRTCEmojiReactionSkinTone_Default];
+                                                                }]];
+            }
+            
+            if (![ms isChatDisabled]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Send a group chat message to all"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                    [ms sendChatToGroup:MobileRTCChatGroup_All WithContent:@"This is a group chat message that send to all"];
+                                                                }]];
+                if ([ms isWebinarMeeting]) {
+                    [alertController addAction:[UIAlertAction actionWithTitle:@"Send a group chat message to Panelists"
+                                                                      style:UIAlertActionStyleDefault
+                                                                    handler:^(UIAlertAction *action) {
+                        [ms sendChatToGroup:MobileRTCChatGroup_Panelists WithContent:@"This is a group chat message that send to Panelists"];
+                                                                    }]];
+                }
+                
+                if (![ms isPrivateChatDisabled]) {
+                    NSArray * userInmeetingList = [ms getInMeetingUserList];
+                    if (userInmeetingList.count > 1) {
+                        for (NSString * userId in userInmeetingList) {
+                            if ([ms myselfUserID] != [userId integerValue]) {
+                                [alertController addAction:[UIAlertAction actionWithTitle:@"Send a private chat message"
+                                                                                  style:UIAlertActionStyleDefault
+                                                                                handler:^(UIAlertAction *action) {
+                                    [ms sendChatToUser:[userId integerValue] WithContent:@"This is a private chat message"];
+                                                                                }]];
+                                break;;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if ([ms isMeetingHost] || [ms isMeetingCoHost]) {
+                NSString *muteOnEntryString = [ms isMuteOnEntryOn] ? @"UnMute Participants upon Entry" : @"Mute Participants upon Entry";
+                [alertController addAction:[UIAlertAction actionWithTitle:muteOnEntryString
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms muteOnEntry:![ms isMuteOnEntryOn]];
+                                                                }]];
+                
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Mute All"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms muteAllUserAudio:YES];
+                                                                }]];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Ask All UnMute"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms askAllToUnmute];
+                                                                }]];
+                
+                NSString *playChimeString = [ms isPlayChimeOn] ? @"Does not Play Sound When Someone Join/Leave" : @"Play Sound When Someone Join/Leave";
+                [alertController addAction:[UIAlertAction actionWithTitle:playChimeString
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [ms playChime:![ms isPlayChimeOn]];
+                                                                }]];
+            }
+            
+            if ([ms canClaimhost]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Claim host"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                                                                    [self ClaimHostWitHostKey];
+                                                                }]];
+            }
+            
+            if ([ms isWebinarMeeting]) {
+                if ([[[MobileRTC sharedRTC] getMeetingService] isQAEnabled]) {
+                    [alertController addAction:[UIAlertAction actionWithTitle:@"QA"
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction *action) {
+                                                                          AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
+                                                                          QAListViewController *VC = [[QAListViewController alloc] init];
+                                                                          UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
+                                                                          nav.modalPresentationStyle = UIModalPresentationFullScreen;
+                                                                          [[appDelegate topViewController] presentViewController:nav animated:YES completion:NULL];
+                                                                      }]];
+                }
+                
+                if ([ms isMeetingHost] || [ms isMeetingCoHost]) {
+                    NSString *allowPanelistStartVideoString = [ms isAllowPanelistStartVideo] ? @"Does not Allow Panelist Start Video" : @"Allow Panelist Start Video";
+                    [alertController addAction:[UIAlertAction actionWithTitle:allowPanelistStartVideoString
+                                                                                style:UIAlertActionStyleDefault
+                                                                                handler:^(UIAlertAction *action) {
+                                                                                    [ms allowPanelistStartVideo:![ms isAllowPanelistStartVideo]];
+                                                                                }]];
+                    
+                    [alertController addAction:[UIAlertAction actionWithTitle:@"Show Webinar Attendees List"
+                                                                              style:UIAlertActionStyleDefault
+                                                                            handler:^(UIAlertAction *action) {
+                                                                                AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
+                                                                                WebinarAtteedeeslistViewController *VC = [[WebinarAtteedeeslistViewController alloc] init];
+                                                                                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
+                                                                                nav.modalPresentationStyle = UIModalPresentationFullScreen;
+                                                                                [[appDelegate topViewController] presentViewController:nav animated:YES completion:NULL];
+                                                                            }]];
+                }
+                
+            }
+            
             [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             }]];
             
@@ -508,69 +633,131 @@
     }
 }
 
+- (void)ClaimHostWitHostKey {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Claim Host Wit HostKey"
+                                                                   message:@"Input host key"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                                NSString *hostKey = alert.textFields[0].text;
+                                                                if (hostKey.length == 0) return;
+                                                                [[[MobileRTC sharedRTC] getMeetingService] claimHostWithHostKey:hostKey];
+                                                          }];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                            
+                                                         }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"host key";
+    }];
+    
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [[appDelegate topViewController] presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)changeChatPriviledge:(UIButton *)sender
 {
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    MobileRTCMeetingChatPriviledgeType priviledgeType  = [ms getAttendeeChatPriviledge];
-    NSString *title = @"";
-    switch (priviledgeType) {
-        case MobileRTCMeetingChatPriviledge_No_One:
-            title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"No one"];
-            break;
-        case MobileRTCMeetingChatPriviledge_Host_Only:
-            title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Host Only"];
-            break;
-        case MobileRTCMeetingChatPriviledge_Everyone_Publicly:
-            title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Everyone Publicly"];
-            break;
-        case MobileRTCMeetingChatPriviledge_Everyone_Publicly_And_Privately:
-            title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Everyone Publicly And Privately"];
-            break;
-        default:
-            break;
-    }
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                             message:nil
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    
-    
-    [alertController addAction:[UIAlertAction actionWithTitle:@"No one"
-                                                        style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction *action) {
-                                                          [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_No_One];
-                                                      }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Host Only"
-                                                        style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction *action) {
-                                                          [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Host_Only];
-                                                      }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Everyone Publicly"
-                                                        style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction *action) {
-                                                          [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Everyone_Publicly];
-                                                      }]];
-    if (![ms isPrivateChatDisabled]) {
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Everyone Publicly And Privately"
+    if ([[[MobileRTC sharedRTC] getMeetingService] isWebinarMeeting]) {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Allow attendees to chat with"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"No one"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction *action) {
-                                                              [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Everyone_Publicly_And_Privately];
+                                                              [ms allowAttendeeChat:MobileRTCChatAllowAttendeeChat_ChatWithNone];
                                                           }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Panelists"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [ms allowAttendeeChat:MobileRTCChatAllowAttendeeChat_ChatWithPanelist];
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Panelists and Attendees"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [ms allowAttendeeChat:MobileRTCChatAllowAttendeeChat_ChatWithAll];
+                                                          }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
+        
+        UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+        if (popover)
+        {
+            popover.sourceView = sender;
+            popover.sourceRect = sender.bounds;
+            popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        }
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[appDelegate topViewController] presentViewController:alertController animated:YES completion:nil];
+        
+    } else {
+        MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+        MobileRTCMeetingChatPriviledgeType priviledgeType  = [ms getAttendeeChatPriviledge];
+        NSString *title = @"";
+        switch (priviledgeType) {
+            case MobileRTCMeetingChatPriviledge_No_One:
+                title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"No one"];
+                break;
+            case MobileRTCMeetingChatPriviledge_Host_Only:
+                title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Host Only"];
+                break;
+            case MobileRTCMeetingChatPriviledge_Everyone_Publicly:
+                title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Everyone Publicly"];
+                break;
+            case MobileRTCMeetingChatPriviledge_Everyone_Publicly_And_Privately:
+                title = [NSString stringWithFormat:@"Allow Participants to Chat with: %@", @"Everyone Publicly And Privately"];
+                break;
+            default:
+                break;
+        }
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"No one"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_No_One];
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Host Only"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Host_Only];
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Everyone Publicly"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Everyone_Publicly];
+                                                          }]];
+        if (![ms isPrivateChatDisabled]) {
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Everyone Publicly And Privately"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction *action) {
+                                                                  [ms changeAttendeeChatPriviledge:MobileRTCMeetingChatPriviledge_Everyone_Publicly_And_Privately];
+                                                              }]];
+        }
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }]];
+        
+        UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+        if (popover)
+        {
+            popover.sourceView = sender;
+            popover.sourceRect = sender.bounds;
+            popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        }
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[appDelegate topViewController] presentViewController:alertController animated:YES completion:nil];
     }
-    
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-    }]];
-    
-    UIPopoverPresentationController *popover = alertController.popoverPresentationController;
-    if (popover)
-    {
-        popover.sourceView = sender;
-        popover.sourceRect = sender.bounds;
-        popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    }
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [[appDelegate topViewController] presentViewController:alertController animated:YES completion:nil];
-
 }
 
 - (void)updateMyAudioStatus

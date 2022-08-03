@@ -11,6 +11,7 @@
 		9197851423F4EACD0099BDDB /* BOMeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9197851323F4EACD0099BDDB /* BOMeetingViewController.m */; };
 		91A9BE8B243C53D000D94794 /* VBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A9BE8A243C53D000D94794 /* VBViewController.m */; };
 		91B2313224FDF4E100B8A777 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B2312E24FDF4E100B8A777 /* BaseNavigationController.m */; };
+		91D6EBAB2578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D6EBAA2578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.m */; };
 		C123332B18D6D43100894EED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C123332918D6D43100894EED /* InfoPlist.strings */; };
 		C123332D18D6D43100894EED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C123332C18D6D43100894EED /* main.m */; };
 		C123333118D6D43100894EED /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C123333018D6D43100894EED /* AppDelegate.m */; };
@@ -56,6 +57,7 @@
 		D0400EA422CDC4D5008F7989 /* icon_meeting_audio_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0400E9F22CDC4D5008F7989 /* icon_meeting_audio_phone@2x.png */; };
 		D0400EA522CDC4D5008F7989 /* icon_meeting_audio_phone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0400EA222CDC4D5008F7989 /* icon_meeting_audio_phone@3x.png */; };
 		D0400EA622CDC4D5008F7989 /* icon_meeting_audio_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = D0400EA322CDC4D5008F7989 /* icon_meeting_audio_phone.png */; };
+		D04139C62582206B0005572F /* WebinarAtteedeeslistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04139C52582206B0005572F /* WebinarAtteedeeslistViewController.m */; };
 		D0438AE02313F3AB002D7AB7 /* ControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D0438ADF2313F3AB002D7AB7 /* ControlBar.m */; };
 		D0438AE32313F7FC002D7AB7 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0438AE22313F7FC002D7AB7 /* BottomBarView.m */; };
 		D049509325484502009A8091 /* InterpreterLanguageSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D049509225484502009A8091 /* InterpreterLanguageSelectViewController.m */; };
@@ -250,6 +252,8 @@
 		91A9BE8A243C53D000D94794 /* VBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VBViewController.m; sourceTree = "<group>"; };
 		91B2312E24FDF4E100B8A777 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		91B2313124FDF4E100B8A777 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		91D6EBA92578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDKStartJoinMeetingPresenter+EmojieReaction.h"; sourceTree = "<group>"; };
+		91D6EBAA2578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDKStartJoinMeetingPresenter+EmojieReaction.m"; sourceTree = "<group>"; };
 		C123331D18D6D43100894EED /* MobileRTCSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileRTCSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C123332818D6D43100894EED /* MobileRTCSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MobileRTCSample-Info.plist"; sourceTree = "<group>"; };
 		C123332A18D6D43100894EED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -316,6 +320,8 @@
 		D0400E9F22CDC4D5008F7989 /* icon_meeting_audio_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_meeting_audio_phone@2x.png"; sourceTree = "<group>"; };
 		D0400EA222CDC4D5008F7989 /* icon_meeting_audio_phone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_meeting_audio_phone@3x.png"; sourceTree = "<group>"; };
 		D0400EA322CDC4D5008F7989 /* icon_meeting_audio_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_meeting_audio_phone.png; sourceTree = "<group>"; };
+		D04139C22582206B0005572F /* WebinarAtteedeeslistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebinarAtteedeeslistViewController.h; sourceTree = "<group>"; };
+		D04139C52582206B0005572F /* WebinarAtteedeeslistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebinarAtteedeeslistViewController.m; sourceTree = "<group>"; };
 		D0438ADC2313F3AB002D7AB7 /* ControlBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlBar.h; sourceTree = "<group>"; };
 		D0438ADF2313F3AB002D7AB7 /* ControlBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlBar.m; sourceTree = "<group>"; };
 		D0438AE12313F7FC002D7AB7 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
@@ -717,6 +723,8 @@
 				9197851323F4EACD0099BDDB /* BOMeetingViewController.m */,
 				91A9BE89243C53D000D94794 /* VBViewController.h */,
 				91A9BE8A243C53D000D94794 /* VBViewController.m */,
+				D04139C22582206B0005572F /* WebinarAtteedeeslistViewController.h */,
+				D04139C52582206B0005572F /* WebinarAtteedeeslistViewController.m */,
 			);
 			path = CustomMeeting;
 			sourceTree = "<group>";
@@ -757,6 +765,8 @@
 				917D135424910764001567F7 /* SDKStartJoinMeetingPresenter+BOServiceDelegate.m */,
 				D0A70ADC25494CBF003C923D /* SDKStartJoinMeetingPresenter+Interpretation.h */,
 				D0A70ADD25494CBF003C923D /* SDKStartJoinMeetingPresenter+Interpretation.m */,
+				91D6EBA92578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.h */,
+				91D6EBAA2578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.m */,
 			);
 			path = meeting_callback;
 			sourceTree = "<group>";
@@ -1296,6 +1306,7 @@
 				D058CCA422FABF8A004E6379 /* AudioRawDataSaveSandboxHelper.m in Sources */,
 				D0F85EFA21B1201E00D04358 /* SDKStartJoinMeetingPresenter+UserServiceDelegate.m in Sources */,
 				D99540BB20CFC313007AA8B2 /* AnnoFloatBarView.m in Sources */,
+				D04139C62582206B0005572F /* WebinarAtteedeeslistViewController.m in Sources */,
 				D0306EB325465E9A0069A1A5 /* SelectLanguageViewController.m in Sources */,
 				D057546921B7F53800FD95DA /* SDKStartJoinMeetingPresenter+VideoServiceDelegate.m in Sources */,
 				D0ECCE5521CA52D000CFC386 /* SDKAuthPresenter+PremeetingDelegate.m in Sources */,
@@ -1349,6 +1360,7 @@
 				D0C1172324C57861000FD3C4 /* SendPictureAdapter.m in Sources */,
 				F7150A7C200F25CF00148CAA /* HorizontalTableView.m in Sources */,
 				D057546C21B7F56D00FD95DA /* SDKStartJoinMeetingPresenter+ShareServiceDelegate.m in Sources */,
+				91D6EBAB2578C0E0001795C6 /* SDKStartJoinMeetingPresenter+EmojieReaction.m in Sources */,
 				D000E943219BF0B500FC9275 /* TopPanelView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

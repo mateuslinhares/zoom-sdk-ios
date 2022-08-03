@@ -33,6 +33,7 @@
  @brief Query if user's video is spotlighted. Once the user's video is spotlighted, it will show only the specified video in the meeting instead of active user's.  
  @param userId The ID of user in meeting.
  @return YES means spotlighted, otherwise not.
+ @warning The function is only for Zoom UI.
  */
 - (BOOL)isUserSpotlighted:(NSUInteger)userId;
 
@@ -42,6 +43,7 @@
  @param userId The ID of user whose video will be spotlighted in the meeting.
  @return YES means that the method is called successfully, otherwise not.
  @warning Only meeting host can run the function, and user spotlighted should not be the host himself.
+ @warning The function is only for Zoom UI.
  */
 - (BOOL)spotlightVideo:(BOOL)on withUser:(NSUInteger)userId;
 
@@ -49,6 +51,7 @@
  @brief Query if the user's video is pinned. 
  @param userId The ID of user whose video will be pinned in the meeting.
  @return YES means that the user's video is pinned, otherwise not.
+ @warning The function is only for Zoom UI.
  */
 - (BOOL)isUserPinned:(NSUInteger)userId;
 
@@ -57,6 +60,7 @@
  @param on YES means to pin user's video, otherwise not. 
  @param userId The ID of user whose video will be pinned.
  @return YES means that the method is called successfully, otherwise not.
+ @warning The function is only for Zoom UI.
  */
 - (BOOL)pinVideo:(BOOL)on withUser:(NSUInteger)userId;
 

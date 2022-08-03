@@ -103,6 +103,12 @@ typedef NS_ENUM(NSUInteger, MobileRTCMeetError) {
     MobileRTCMeetError_InvalidUserType,
     ///The user joins already another ongoing meeting.
     MobileRTCMeetError_InAnotherMeeting,
+    ///The request too frequence
+    MobileRTCMeetError_TooFrequenceCall,
+    ///Wrong usage of the api
+    MobileRTCMeetError_WrongUsage,
+    ///Failed of the api call
+    MobileRTCMeetError_Failed,
     ///The virtual background error base
     MobileRTCMeetError_VBBase                           = 200,
     ///Set image for virtual background error
@@ -550,6 +556,8 @@ typedef NS_ENUM(NSUInteger, MobileRTCMeetingItemRecordType) {
     MobileRTCMeetingItemRecordType_LocalRecord                      = 1,
     ///Cloud Recording
     MobileRTCMeetingItemRecordType_CloudRecord                      = 2,
+    ///Unknown
+    MobileRTCMeetingItemRecordType_Unknown                      = 3,
 };
 
 /*!
@@ -598,7 +606,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCVideoType) {
  */
 typedef NS_ENUM(NSUInteger, MobileRTCVideoResolution) {
     /// video resolution 90
-    MobileRTCVideoResolution_90,
+    MobileRTCVideoResolution_90 = 0,
     /// video resolution 180
     MobileRTCVideoResolution_180,
     /// video resolution 360
@@ -634,7 +642,7 @@ typedef NS_ENUM(NSInteger, MobileRTCVideoRawDataRotation) {
  */
 typedef NS_ENUM(NSUInteger,MobileRTCRawDataError)
 {
-    MobileRTCRawData_Success,
+    MobileRTCRawData_Success = 0,
     MobileRTCRawData_Uninitialized,
     MobileRTCRawData_Malloc_Failed,
     MobileRTCRawData_Wrongusage,
@@ -660,7 +668,7 @@ typedef NS_ENUM(NSUInteger,MobileRTCRawDataError)
  @brief Rawdata memory mode.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCRawDataMemoryMode) {
-    MobileRTCRawDataMemoryModeStack,
+    MobileRTCRawDataMemoryModeStack = 0,
     MobileRTCRawDataMemoryModeHeap
 };
 
@@ -668,7 +676,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCRawDataMemoryMode) {
  @brief Locale fo Customer.
  */
 typedef NS_ENUM(NSUInteger, MobileRTC_ZoomLocale) {
-    MobileRTC_ZoomLocale_Default,
+    MobileRTC_ZoomLocale_Default = 0,
     MobileRTC_ZoomLocale_CN
 };
 
@@ -676,7 +684,7 @@ typedef NS_ENUM(NSUInteger, MobileRTC_ZoomLocale) {
  @brief for SMS service usage.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCSMSServiceErr) {
-    Unknown,
+    Unknown = 0,
     Success,
     Retrieve_SendSMSFailed,
     Retrieve_InvalidPhoneNum,
@@ -691,7 +699,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCSMSServiceErr) {
  @brief Minimize Meeting state in Zoom UI.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCMinimizeMeetingState) {
-    MobileRTCMinimizeMeeting_ShowMinimizeMeeting,
+    MobileRTCMinimizeMeeting_ShowMinimizeMeeting = 0,
     MobileRTCMinimizeMeeting_BackFullScreenMeeting
 };
 
@@ -699,7 +707,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCMinimizeMeetingState) {
 @brief free meeting need upgrade type.
 */
 typedef NS_ENUM(NSUInteger, FreeMeetingNeedUpgradeType) {
-    FreeMeetingNeedUpgradeType_NONE,
+    FreeMeetingNeedUpgradeType_NONE = 0,
     FreeMeetingNeedUpgradeType_BY_ADMIN,
     FreeMeetingNeedUpgradeType_BY_GIFTURL,
 };
@@ -708,7 +716,7 @@ typedef NS_ENUM(NSUInteger, FreeMeetingNeedUpgradeType) {
  @brief Result for requested help from attendee in BO Meeting
  */
 typedef NS_ENUM(NSUInteger, MobileRTCBOHelpReply) {
-    MobileRTCBOHelpReply_Idle,    //host receive the help request and there is no other one currently requesting for help
+    MobileRTCBOHelpReply_Idle = 0,    //host receive the help request and there is no other one currently requesting for help
     MobileRTCBOHelpReply_Busy,    //host is handling other's request with the request dialog, no chance to show dialog for this request
     MobileRTCBOHelpReply_Ignore,    //host click "later" button or close the request dialog directly
     MobileRTCBOHelpReply_alreadyInBO    //host already in your BO meeting
@@ -718,7 +726,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCBOHelpReply) {
 @brief Direct sharing status.
 */
 typedef NS_ENUM(NSUInteger, MobileRTCDirectShareStatus) {
-    MobileRTCDirectShareStatus_Unknown, //<Only for initialization.
+    MobileRTCDirectShareStatus_Unknown = 0, //<Only for initialization.
     MobileRTCDirectShareStatus_Connecting, //<Waiting for enabling the direct sharing.
     MobileRTCDirectShareStatus_In_Direct_Share_Mode, //<In direct sharing mode.
     MobileRTCDirectShareStatus_Ended, //<End the direct sharing.
@@ -727,3 +735,62 @@ typedef NS_ENUM(NSUInteger, MobileRTCDirectShareStatus) {
     MobileRTCDirectShareStatus_Other_Error, //<Other errors. Mainly occur in SIP call mode.
     MobileRTCDirectShareStatus_WrongMeetingID_Or_SharingKey //<Wrong meeting id or sharing key.
 };
+
+/*!
+@brief emoji reacion type.
+*/
+typedef NS_ENUM(NSUInteger, MobileRTCEmojiReactionType) {
+    MobileRTCEmojiReactionType_Unknown = 0, /// unknow
+    MobileRTCEmojiReactionType_Clap,    /// clap
+    MobileRTCEmojiReactionType_Thumbsup, /// thumbsup
+    MobileRTCEmojiReactionType_Heart, /// heart
+    MobileRTCEmojiReactionType_Joy, /// joy
+    MobileRTCEmojiReactionType_Openmouth, /// openmouth
+    MobileRTCEmojiReactionType_Tada, /// tada
+};
+
+/*!
+@brief emoji reaction skin tone.
+*/
+typedef NS_ENUM(NSUInteger, MobileRTCEmojiReactionSkinTone) {
+    MobileRTCEmojiReactionSkinTone_Unknown = 0,/// unknow
+    MobileRTCEmojiReactionSkinTone_Default, /// default skin tone
+    MobileRTCEmojiReactionSkinTone_Light, /// light skin tone
+    MobileRTCEmojiReactionSkinTone_MediumLight, /// medium light skin tone
+    MobileRTCEmojiReactionSkinTone_Medium, /// medium skin tone
+    MobileRTCEmojiReactionSkinTone_MediumDark, /// medium dark skin tone
+    MobileRTCEmojiReactionSkinTone_Dark, /// dark skin tone
+};
+
+/*!
+ @brief Enumeration of meeting types
+ */
+typedef NS_ENUM(NSUInteger, MobileRTCMeetingType) {
+    //There is no meeting.
+    MobileRTCMeetingType_None,
+    //Normal meeting.
+    MobileRTCMeetingType_Normal,
+    //Breakout meeting.
+    MobileRTCMeetingType_BreakoutRoom,
+    //Webinar.
+    MobileRTCMeetingType_Webinar,
+};
+
+/*!
+ @brief Enumeration of user roles.
+ */
+typedef NS_ENUM(NSUInteger, MobileRTCUserRole) {
+    //For initialization.
+    MobileRTCUserRole_None,
+    //Host.
+    MobileRTCUserRole_Host,
+    //Co-host.
+    MobileRTCUserRole_CoHost,
+    //Attendee in the webinar.
+    MobileRTCUserRole_Attendee,
+    //Panelist.
+    MobileRTCUserRole_Panelist,
+    //Moderator of breakout room.
+    MobileRTCUserRole_BreakoutRoom_Moderator,
+};
+

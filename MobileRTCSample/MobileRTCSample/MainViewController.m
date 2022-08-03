@@ -503,11 +503,6 @@
 
 #if kEnableSMSService
 #pragma mark - sms service notification -
-- (void)onNeedRealNameAuth:(NSString *)bindPhoneUrl signupUrl:(NSString *)signupUrl
-{
-    NSLog(@"bindPhoneUrl:%@, signupUrl: %@", bindPhoneUrl, signupUrl);
-}
-
 - (void)onNeedRealNameAuth:(NSArray<MobileRTCRealNameCountryInfo *> *)supportCountryList privacyURL:(NSString *)privacyUrl retrieveHandle:(MobileRTCRetrieveSMSHandler *)handle
 {
     NSLog(@"Country List:%@, privacyUrl: %@, sendSMSHandle: %@", supportCountryList, privacyUrl, handle);
@@ -570,11 +565,13 @@
                 NSLog(@"stopDirectShare==>%@", @(stopDirectShare));
             }]];
 
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
-                if (handler) {
-                    [handler TryWithMeetingNumber:alertController.textFields.firstObject.text];
-                }
-            }]];
+            if (handler) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+                    if (handler) {
+                        [handler TryWithPairingCode:alertController.textFields.firstObject.text];
+                    }
+                }]];
+            }
 
             [self presentViewController:alertController animated:true completion:nil];
             [alertController release];

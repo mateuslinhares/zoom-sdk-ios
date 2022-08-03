@@ -197,7 +197,7 @@
  @brief Get alternative host list from user profile information.
  @return An array with MobileRTCAlternativeHost information.
  */
-- (nullable NSArray*)getCanScheduleForUsersList;
+- (nullable NSArray <MobileRTCAlternativeHost *> *)getCanScheduleForUsersList;
 
 /*!
  @brief Check if local recording is supported while scheduling a meeting.
@@ -227,7 +227,7 @@
  @brief Get specified domain from user profile.
  @return The data in domain array is NSString type.
  */
-- (nullable NSArray *)getDefaultCanJoinUserSpecifiedDomains;
+- (nullable NSArray <NSString *> *)getDefaultCanJoinUserSpecifiedDomains;
 
 @end
 

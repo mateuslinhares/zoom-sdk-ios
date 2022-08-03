@@ -475,15 +475,17 @@
     MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
     NSArray *arr = [ws waitingRoomList];
     MobileRTCMeetingUserInfo *userInfo = [ws waitingRoomUserInfoByID:userId];
-    NSLog(@"Waiting Room: %@", arr);
-    NSLog(@"userInfo: %@", userInfo);
+    NSLog(@"onWaitingRoomUserJoin-waitingRoomList: %@", arr);
+    NSLog(@"onWaitingRoomUserJoin-userInfo: %@", userInfo);
     [ws admitToMeeting:userId];
 }
 
 - (void)onWaitingRoomUserLeft:(NSUInteger)userId {
     MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
+    NSArray *arr = [ws waitingRoomList];
     MobileRTCMeetingUserInfo *userInfo = [ws waitingRoomUserInfoByID:userId];
-    NSLog(@"userInfo: %@", userInfo);
+    NSLog(@"onWaitingRoomUserLeft-waitingRoomList: %@", arr);
+    NSLog(@"onWaitingRoomUserLeft-userInfo: %@", userInfo);
 }
 
 #pragma mark - Annotation service delegate -

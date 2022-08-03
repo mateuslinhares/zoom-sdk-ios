@@ -552,12 +552,6 @@
 - (void)onSinkQAConnected:(BOOL)connected;
 
 /*!
- @brief Callback event when Q&A refresh Data
- @warning The callback notifies the user that the QA data has been reloaded after the meeting is reconnected.
- */
-- (void)OnRefreshQAData;
-
-/*!
  @brief Callback event when the open-ended question changes.
  @param count The amount of open-ended questions.
  */
@@ -956,6 +950,21 @@
 - (void)onNewBroadcastMessageReceived:(NSString *_Nullable)broadcastMsg;
 
 @end
+
+#pragma mark - MobileRTCReactionServiceDelegate
+@protocol MobileRTCReactionServiceDelegate <MobileRTCMeetingServiceDelegate>
+
+@optional
+/**
+ * @brief Notify receive the emoji reaction.
+ * @param userId The user id of the send emoji racetion.
+ * @param type The send emoji racetion type.
+ * @param skinTone The send emoji racetion skinstone.
+ */
+- (void)onEmojiReactionReceived:(NSUInteger)userId reactionType:(MobileRTCEmojiReactionType)type reactionSkinTone:(MobileRTCEmojiReactionSkinTone)skinTone;
+
+@end
+
 
 #pragma mark - MobileRTCBOServiceDelegate
 @protocol MobileRTCBODataDelegate <MobileRTCMeetingServiceDelegate>

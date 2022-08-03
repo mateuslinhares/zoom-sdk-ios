@@ -9,6 +9,7 @@
 #import <MobileRTC/MobileRTC.h>
 #import <MobileRTC/MobileRTCMeetingUserInfo.h>
 #import <MobileRTC/MobileRTCMeetingChat.h>
+#import "MobileRTCE2EMeetingKey.h"
 
 /*!
  @brief Set to provide interfaces for meeting events
@@ -92,7 +93,7 @@
  @return YES means that the method is called successfully, otherwise not.
  @warning The method is optional.
  */
-- (BOOL)handleE2EMeetingKey:(nonnull NSArray*)keyArray withLeaveMeeting:(BOOL)leave;
+- (BOOL)handleE2EMeetingKey:(nonnull NSArray <MobileRTCE2EMeetingKey *> *)keyArray withLeaveMeeting:(BOOL)leave;
 
 /*!
  @brief Query if the meeting is external or not.
@@ -114,6 +115,12 @@
  @warning The method is optional.
  */
 - (BOOL)isFailoverMeeting;
+
+/**
+ * @brief Get the type of current meeting.
+ * @return If the function succeeds, it will return the type of meeting, otherwise failed.
+ */
+- (MobileRTCMeetingType)getMeetingType;
 
 /*!
  @brief Query if the meeting is Webinar.

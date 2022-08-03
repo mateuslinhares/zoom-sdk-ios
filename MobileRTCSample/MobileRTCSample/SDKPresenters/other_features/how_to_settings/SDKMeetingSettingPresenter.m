@@ -50,6 +50,16 @@
     [[[MobileRTC sharedRTC] getMeetingSettings] disableCopyMeetingUrl:disabled];
 }
 
+- (void)onProximityMonitoring:(BOOL)disabled
+{
+    [[[MobileRTC sharedRTC] getMeetingSettings] setProximityMonitoringDisable:disabled];
+}
+
+- (void)onSpeakerWhenInMeeting:(BOOL)disabled
+{
+    [[[MobileRTC sharedRTC] getMeetingSettings] setSpeakerOffWhenInMeeting:disabled];
+}
+
 - (void)disableCallIn:(BOOL)disabled
 {
     [[[MobileRTC sharedRTC] getMeetingSettings] disableCallIn:disabled];
@@ -138,6 +148,41 @@
 - (void)setQaButtonHidden:(BOOL)hidden
 {
     [[MobileRTC sharedRTC] getMeetingSettings].qaButtonHidden = hidden;
+}
+
+- (void)setCallinRoomSystemHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].callinRoomSystemHidden = hidden;
+}
+
+- (void)setCalloutRoomSystemHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].calloutRoomSystemHidden = hidden;
+}
+
+- (void)setClaimHostWithHostKeyHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].claimHostWithHostKeyHidden = hidden;
+}
+
+- (void)setCloseCaptionHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].closeCaptionHidden = hidden;
+}
+
+- (void)setPromoteToPanelistHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].promoteToPanelistHidden = hidden;
+}
+
+- (void)setChangeToAttendeeHiddenHidden:(BOOL)hidden
+{
+    [[MobileRTC sharedRTC] getMeetingSettings].changeToAttendeeHidden = hidden;
+}
+
+- (void)setReactionsOnMeetingUI:(BOOL)hidden
+{
+    [[[MobileRTC sharedRTC] getMeetingSettings] hideReactionsOnMeetingUI:hidden];
 }
 
 - (void)setEnableKubi:(BOOL)enabled

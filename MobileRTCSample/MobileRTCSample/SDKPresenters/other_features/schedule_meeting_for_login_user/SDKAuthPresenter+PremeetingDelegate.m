@@ -68,5 +68,9 @@
 #endif
 }
 
+- (void)sinkGetInviteEmailContent:(PreMeetingError)result content:(NSString *_Nullable)content
+{
+    NSLog(@"sinkGetInviteEmailContent==>%@ content==>%@", @(result), content);
+}
 
 @end

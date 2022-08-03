@@ -26,6 +26,10 @@
 
 - (void)onDisableCopyMeetinUrl:(BOOL)disabled;
 
+- (void)onProximityMonitoring:(BOOL)disabled;
+
+- (void)onSpeakerWhenInMeeting:(BOOL)disabled;
+
 - (void)disableCallIn:(BOOL)disabled;
 
 - (void)disableCallOut:(BOOL)disabled;
@@ -61,6 +65,20 @@
 - (void)setBottomBarHidden:(BOOL)hidden;
 
 - (void)setQaButtonHidden:(BOOL)hidden;
+
+- (void)setCallinRoomSystemHidden:(BOOL)hidden;
+
+- (void)setCalloutRoomSystemHidden:(BOOL)hidden;
+
+- (void)setClaimHostWithHostKeyHidden:(BOOL)hidden;
+
+- (void)setCloseCaptionHidden:(BOOL)hidden;
+
+- (void)setPromoteToPanelistHidden:(BOOL)hidden;
+
+- (void)setChangeToAttendeeHiddenHidden:(BOOL)hidden;
+
+- (void)setReactionsOnMeetingUI:(BOOL)hidden;
 
 - (void)setEnableKubi:(BOOL)enabled;
 

@@ -426,12 +426,6 @@ typedef NS_ENUM(NSInteger, ZoomSampleQAListType) {
     [self updateData];
 }
 
-- (void)onSinkQuestionMarkedAsAnswered:(NSString *_Nonnull)questionID
-{
-    NSLog(@"Webinar Q&A--onSinkQuestionMarkedAsAnswered questionID=%@", questionID);
-    [self updateData];
-}
-
 - (void)onSinkUserLivingReply:(NSString *_Nonnull)questionID
 {
     NSLog(@"Webinar Q&A--onSinkUserLivingReply questionID=%@", questionID);
@@ -452,7 +446,7 @@ typedef NS_ENUM(NSInteger, ZoomSampleQAListType) {
 
 - (void)onSinkRevokeVoteupQuestion:(NSString *_Nonnull)questionID orderChanged:(BOOL)orderChanged
 {
-    NSLog(@"Webinar Q&A--onSinkRevokeUpvoteQuestion questionID=%@ orderChanged=%@", questionID, @(orderChanged));
+    NSLog(@"Webinar Q&A--onSinkRevokeVoteupQuestion questionID=%@ orderChanged=%@", questionID, @(orderChanged));
     [self updateData];
 }
 
@@ -469,11 +463,6 @@ typedef NS_ENUM(NSInteger, ZoomSampleQAListType) {
     for (NSString * answerIDA in answerIDArray) {
         NSLog(@"Webinar Q&A--onSinkDeleteAnswer %@", answerIDA);
     }
-    [self updateData];
-}
-
-- (void)OnRefreshQAData
-{
     [self updateData];
 }
 
