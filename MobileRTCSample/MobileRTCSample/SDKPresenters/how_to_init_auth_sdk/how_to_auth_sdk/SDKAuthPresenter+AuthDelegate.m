@@ -12,7 +12,7 @@
 
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue
 {
-    NSLog(@"onMobileRTCAuthReturn %d", returnValue);
+    NSLog(@"onMobileRTCAuthReturn %@", @(returnValue));
     
     if (returnValue != MobileRTCAuthError_Success)
     {
@@ -25,6 +25,11 @@
 - (void)onMobileRTCLoginReturn:(NSInteger)returnValue
 {
     NSLog(@"onMobileRTCLoginReturn result=%zd", returnValue);
+    
+    if (returnValue == 0) {
+        MobileRTCAccountInfo *accoutInfo = [[[MobileRTC sharedRTC] getAuthService] getAccountInfo];
+        NSLog(@"MobileRTCAccountInfo-->\ngetEmailAddress:%@ ,\ngetUserName:%@ ,\ngetPMIVanityURL:%@, \nisTelephoneOnlySupported:%@, \nisTelephoneAndVoipSupported:%@, \nis3rdPartyAudioSupported:%@ \nget3rdPartyAudioInfo:%@, \ngetDefaultAudioInfo:%@, \nonlyAllowSignedInUserJoinMeeting:%@ \ngetCanScheduleForUsersList:%@ \nisLocalRecordingSupported:%@ \nisCloudRecordingSupported:%@ \ngetDefaultAutoRecordType:%@ \nisSpecifiedDomainCanJoinFeatureOn:%@ \ngetDefaultCanJoinUserSpecifiedDomains:%@", accoutInfo.getEmailAddress, accoutInfo.getUserName, accoutInfo.getPMIVanityURL, @(accoutInfo.isTelephoneOnlySupported), @(accoutInfo.isTelephoneAndVoipSupported), @(accoutInfo.is3rdPartyAudioSupported), accoutInfo.get3rdPartyAudioInfo, @(accoutInfo.getDefaultAudioInfo), @(accoutInfo.onlyAllowSignedInUserJoinMeeting), accoutInfo.getCanScheduleForUsersList, @(accoutInfo.isLocalRecordingSupported), @(accoutInfo.isCloudRecordingSupported), @(accoutInfo.getDefaultAutoRecordType), @(accoutInfo.isSpecifiedDomainCanJoinFeatureOn),accoutInfo.getDefaultCanJoinUserSpecifiedDomains);
+    }
     
     MobileRTCPremeetingService *service = [[MobileRTC sharedRTC] getPreMeetingService];
     if (service)

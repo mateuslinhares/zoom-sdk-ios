@@ -80,7 +80,7 @@
  @brief Get an array of IP Addresses of room device which is used for calling.
  @return The array of IP Address; if there is no existed IP Address, it will return nil.
  */
-- (nullable NSArray*)getIPAddressList;
+- (nullable NSArray <NSString *> *)getIPAddressList;
 
 /*!
  @brief Get the password of the meeting running on H.323 device.
@@ -92,7 +92,7 @@
  @brief Get room devices that can be called. 
  @return The array of room devices. If there is no any room device. it will return nil.
  */
-- (nullable NSArray*)getRoomDeviceList;
+- (nullable NSArray <MobileRTCRoomDevice *> *)getRoomDeviceList;
 
 /*!
  @brief Get the pairing code when the room device call in. 
@@ -127,14 +127,14 @@
  @return The array of all countrycode.
  */
 
-- (nullable NSArray *)getDialInAllCountryCodes;
+- (nullable NSArray <NSArray <MobileRTCCallCountryCode *> *> *)getDialInAllCountryCodes;
 
 /*!
  @brief Get to the countrycode specified by countryId
  @return The array of countrycode.
  */
 
-- (nullable NSArray *)getDialInCallCodesWithCountryId:(nullable NSString *)countryId;
+- (nullable NSArray <MobileRTCCallCountryCode *> *)getDialInCallCodesWithCountryId:(nullable NSString *)countryId;
 
 /*!
  @brief Make a phone call to access your voice

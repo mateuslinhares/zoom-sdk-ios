@@ -53,7 +53,7 @@ typedef enum {
     param = user;
     
     MobileRTCMeetError ret = [ms startMeetingWithStartParam:param];
-    NSLog(@"onMeetNow ret:%d", ret);
+    NSLog(@"onMeetNow ret:%@", @(ret));
     return;
 }
 

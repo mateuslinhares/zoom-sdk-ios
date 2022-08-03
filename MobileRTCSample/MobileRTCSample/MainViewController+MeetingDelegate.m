@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController+MeetingDelegate.h"
+#import "SendYUVAdapter.h"
 
 @implementation MainViewController (MeetingDelegate)
 
@@ -94,6 +95,21 @@
     }
     
 #endif
+    
+    if (state == MobileRTCMeetingState_InMeeting)
+    {
+#if 0
+        // Test Send raw data
+        MobileRTCVideoSourceHelper *videoSourceHelper = [[MobileRTCVideoSourceHelper alloc] init];
+        SendYUVAdapter *yuvAdapter = [[SendYUVAdapter alloc] init];
+        [videoSourceHelper setExternalVideoSource:yuvAdapter];
+#endif
+        
+#if 0
+        // Test setMeetingTopic
+        [[[MobileRTC sharedRTC] getMeetingService] setMeetingTopic:@"test"];
+#endif
+    }
 }
 
 - (void)onMeetingReady

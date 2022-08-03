@@ -17,6 +17,7 @@
 - (void)onJoinMeetingConfirmed
 {
     NSString *meetingNo = [[MobileRTCInviteHelper sharedInstance] ongoingMeetingNumber];
+//    NSString *meetingPsw = [[[MobileRTC sharedRTC] getMeetingService] getMeetingPassword];
     NSLog(@"onJoinMeetingConfirmed MeetingNo: %@", meetingNo);
 }
 
@@ -39,18 +40,23 @@
 
 - (void)onSinkWebinarNeedRegister:(NSString *)registerURL
 {
-    NSLog(@"%@",registerURL);
+    NSLog(@"onSinkWebinarNeedRegister %@",registerURL);
 }
 
 - (void)onSinkJoinWebinarNeedUserNameAndEmailWithCompletion:(BOOL (^_Nonnull)(NSString * _Nonnull username, NSString * _Nonnull email, BOOL cancel))completion
 {
     if (completion)
     {
-        NSString * username = [NSString stringWithString:@"zoomtest"];
-        NSString * email = [NSString stringWithString:@"zoomtest@zoom.us"];
+        NSString *username = @"zoomtest";
+        NSString *email = @"zoomtest@zoom.us";
         BOOL ret = completion(username,email,NO);
-        NSLog(@"%zd",ret);
+        NSLog(@"onSinkJoinWebinarNeedUserNameAndEmailWithCompletion %@",@(ret));
     }
+}
+
+- (void)onSinkPanelistCapacityExceed
+{
+    NSLog(@"onSinkPanelistCapacityExceed");
 }
 
 - (void)onMeetingError:(MobileRTCMeetError)error message:(NSString*)message
@@ -60,7 +66,7 @@
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state
 {
-    NSLog(@"onMeetingStateChange:%d", state);
+    NSLog(@"onMeetingStateChange:%@", @(state));
     if (self.mainVC) {
         [self.mainVC onMeetingStateChange:state];
     }
@@ -72,6 +78,7 @@
 
 - (void)onMeetingReady
 {
+    NSLog(@"onMeetingReady");
     if (self.mainVC) {
         [self.mainVC onMeetingReady];
     }
@@ -174,6 +181,7 @@
 #if 0
 - (void)onJBHWaitingWithCmd:(JBHCmd)cmd
 {
+    NSLog(@"onJBHWaitingWithCmd->%@",@(cmd));
     if (self.mainVC) {
         [self.mainVC onJBHWaitingWithCmd:cmd];
     }
@@ -265,5 +273,16 @@
 - (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {
     NSLog(@"onSinkMeetingUserLowerHand==%@", @(userID));
 }
+
+- (void)onCheckCMRPrivilege:(MobileRTCCMRError)result {
+    NSLog(@"onCheckCMRPrivilege==%@", @(result));
+}
+
+#if 0
+- (void)onAskToEndOtherMeeting:(void (^_Nonnull)(BOOL cancel))completion {
+    NSLog(@"onAskToEndOtherMeeting");
+    completion(NO);
+}
+#endif
 
 @end

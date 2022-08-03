@@ -146,7 +146,7 @@ typedef enum : NSUInteger {
 /*!
 @brief reply ignore for the help request from bo attendees
 */
-- (BOOL)ignoreUserHelpRequest:(NSString *)boUserId;
+- (BOOL)ignoreUserHelpRequest:(NSString * _Nullable)boUserId;
 
 /*!
 @brief broadcase message for all attendees in the meeting.

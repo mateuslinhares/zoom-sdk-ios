@@ -96,7 +96,7 @@
  @brief getSupportPhoneNumberCountryList.
  @warning get country code iist after call join meeting or start meeting interface.
  */
-- (NSArray * _Nullable)getSupportPhoneNumberCountryList;
+- (NSArray <MobileRTCRealNameCountryInfo *> * _Nullable)getSupportPhoneNumberCountryList;
 
 /*!
  @brief set default cellphone for signed account.

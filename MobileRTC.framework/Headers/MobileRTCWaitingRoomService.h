@@ -54,7 +54,7 @@
  @brief get the waiting room user id list.
  @return waiting room user list.
  */
-- (nullable NSArray *)waitingRoomList;
+- (nullable NSArray <NSNumber *> *)waitingRoomList;
 
 /*!
  @brief get the user detail information in waiting room.
