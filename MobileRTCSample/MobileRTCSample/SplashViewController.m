@@ -15,7 +15,7 @@
 
 @interface SplashViewController ()
 
-@property (retain, nonatomic) UIImageView *logoImageView;
+@property (strong, nonatomic) UIImageView *logoImageView;
 
 @end
 

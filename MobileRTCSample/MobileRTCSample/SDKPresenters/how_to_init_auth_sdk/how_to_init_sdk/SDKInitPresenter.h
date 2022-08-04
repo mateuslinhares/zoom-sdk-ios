@@ -10,6 +10,6 @@
 
 @interface SDKInitPresenter : NSObject
 
-- (void)SDKInit:(UINavigationController *)navVC;
++ (void)SDKInit:(UINavigationController *)navVC;
 
 @end

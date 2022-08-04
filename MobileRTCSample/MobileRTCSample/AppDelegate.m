@@ -8,9 +8,9 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-#import "SDKAuthPresenter.h"
 #import "SDKInitPresenter.h"
 #import "BaseNavigationController.h"
+#import "SDKAuthPresenter+Login.h"
 
 @implementation AppDelegate
 
@@ -22,8 +22,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSLog(@"%@", paths[0]);
     
-    MainViewController *mainVC = [[[MainViewController alloc] init] autorelease];
-    BaseNavigationController *navVC = [[[BaseNavigationController alloc] initWithRootViewController:mainVC] autorelease];
+    MainViewController *mainVC = [[MainViewController alloc] init];
+    BaseNavigationController *navVC = [[BaseNavigationController alloc] initWithRootViewController:mainVC];
     navVC.navigationBarHidden = YES;
     
     self.window.rootViewController = navVC;
@@ -32,10 +32,11 @@
     [self.window makeKeyAndVisible];
     
     // SDK init
-    [[[SDKInitPresenter alloc] init] SDKInit:navVC];
+    [SDKInitPresenter SDKInit:navVC];
     
-    //4. MobileRTC Authorize
-    [[[SDKAuthPresenter alloc] init] SDKAuth:KjwtToken];
+    // MobileRTC Authorize
+    self.authPresenter = [[SDKAuthPresenter alloc] init];
+    [self.authPresenter SDKAuth:KjwtToken];
     
     return YES;
 }
@@ -77,7 +78,27 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    if ([[url scheme] isEqualToString:<#Your URL scheme#>] && [self isSSOLoginURL:url]) {
+        [self.authPresenter ssoLoginWithWebUriProtocol:url.absoluteString];
+    }
+    
     return YES;
+}
+
+- (BOOL)isSSOLoginURL:(NSURL *)url
+{
+    BOOL isSSOLogin = NO;
+    
+    NSString *urlString = [url absoluteString];
+    
+    NSRange range = [urlString rangeOfString:@"sso?"];
+    
+    if(range.location != NSNotFound)
+    {
+        isSSOLogin = YES;
+    }
+    
+    return isSSOLogin;
 }
 
 - (UIViewController *)topViewController

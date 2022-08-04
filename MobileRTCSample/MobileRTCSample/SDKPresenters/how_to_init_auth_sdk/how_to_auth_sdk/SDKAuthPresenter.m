@@ -24,7 +24,7 @@
     if (authService)
     {
         authService.delegate = self;
-        // Here need add your jwtToken, if jwtToken is nil or empty,We will user your clientKey and clientSecret to Auth, We recommend using JWTToken.
+        // Here need add your jwtToken, if jwtToken is nil or empty,We will use your clientKey and clientSecret to Auth, We recommend using JWTToken.
         authService.jwtToken = jwtToken;
         [authService sdkAuth];
     }

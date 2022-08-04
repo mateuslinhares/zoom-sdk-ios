@@ -10,14 +10,15 @@
 
 @implementation SDKAuthPresenter (Login)
 
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password rememberMe:(BOOL)rememberMe
+- (NSString *)getSSODomainWithVanityURL:(NSString *)vanityURL
 {
-    [[[MobileRTC sharedRTC] getAuthService] loginWithEmail:email password:password rememberMe:YES];
+    return [[[MobileRTC sharedRTC] getAuthService] generateSSOLoginWebURL:vanityURL];
 }
 
-- (void)loginWithSSOToken:(NSString *)ssoToken rememberMe:(BOOL)rememberMe
+- (BOOL)ssoLoginWithWebUriProtocol:(NSString *)protocolURL
 {
-    [[[MobileRTC sharedRTC] getAuthService] loginWithSSOToken:ssoToken rememberMe:YES];
+    MobileRTCLoginFailReason ret = [[[MobileRTC sharedRTC] getAuthService] ssoLoginWithWebUriProtocol:protocolURL];
+    return ret != MobileRTCLoginFailReason_Success;
 }
 
 @end

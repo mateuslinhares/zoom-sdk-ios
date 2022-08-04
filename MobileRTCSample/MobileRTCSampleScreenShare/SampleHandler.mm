@@ -23,11 +23,24 @@
     self = [super init];
     if (self)
     {
-        MobileRTCScreenShareService * service = [[MobileRTCScreenShareService alloc]init];
-        self.screenShareService = service;
-        self.screenShareService.appGroup = @"group.zoom.us.MobileRTCSampleExtensionReplayKit";
+        self.screenShareService = [[MobileRTCScreenShareService alloc]init];
+        /**
+         * if you need use screen share feature, Here are a few things to note:
+         * <1> Create your own groupid on the Apple Developer Web site, and fill the group ID in here and in the AppDelegate.m
+         * <2> Create an "App Groups" Capability in the main project target and the replayKit project target, and select the groupId correctly.
+         * <3> If you can't select groupId correctly in "App Groups" Capability, Please check MobileRTCSample.Entitlements and MobileRTCSampleScreenShare.entitlements this two files, here also need to configure the correct group id.
+         *   <key>com.apple.security.application-groups</key>
+             <array>
+                <string> your group id </string>
+             </array
+         *
+         * For details, please refer: https://marketplace.zoom.us/docs/sdk/native-sdks/iOS/mastering-zoom-sdk/in-meeting-function/screen-share
+         *
+         * if you don't need screen share, please delete MobileRTCSampleScreenShare target.
+         *
+         */
+        self.screenShareService.appGroup = <#Group ID#>;
         self.screenShareService.delegate = self;
-        [service release];
     }
     return self;
 }
@@ -35,7 +48,6 @@
 - (void)dealloc
 {
     self.screenShareService = nil;
-    [super dealloc];
 }
 
 

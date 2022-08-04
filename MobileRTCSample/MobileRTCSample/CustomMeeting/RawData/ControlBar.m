@@ -54,7 +54,6 @@
     self.actionPresenter = nil;
     
     self.videoSourceHelper = nil;
-    [super dealloc];
 }
 
 - (void)layoutSubviews {

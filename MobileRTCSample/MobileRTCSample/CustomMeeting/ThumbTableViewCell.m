@@ -86,6 +86,5 @@
 - (void)dealloc
 {
     self.thumbView = nil;
-    [super dealloc];
 }
 @end
