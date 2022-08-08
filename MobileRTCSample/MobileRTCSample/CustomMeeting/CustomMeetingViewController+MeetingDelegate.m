@@ -19,7 +19,7 @@
 
 - (void)onSinkMeetingActiveVideo:(NSUInteger)userID
 {
-    self.pinUserId = userID;
+//    self.shrinkVC.activeVideoID = userID;
     [self updateVideoOrShare];
 }
 

@@ -22,6 +22,7 @@
 - (void)dealloc
 {
     self.action= nil;
+    [super dealloc];
 }
 
 - (void)initSubView
@@ -100,6 +101,7 @@ typedef enum
     self.mouseButton = nil;
     self.keyboardView = nil;
     self.inputText = nil;
+    [super dealloc];
 }
 
 - (void)setupRemoteControl:(UIView *)remoteShareView
@@ -111,7 +113,7 @@ typedef enum
 
 - (void)initSubView
 {
-    self.remoteContrlBar = [[RemoteControlBar alloc] initWithFrame:CGRectMake(50, SCREEN_HEIGHT-400,175, 50)];
+    self.remoteContrlBar = [[RemoteControlBar alloc] initWithFrame:CGRectMake(50, SCREEN_HEIGHT-200,175, 50)];
     self.remoteContrlBar.delegate = self;
     [self.remoteShareView addSubview:self.remoteContrlBar];
     self.remoteContrlBar.hidden = YES;
@@ -156,7 +158,6 @@ typedef enum
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleShareTap:)];
     singleTap.numberOfTapsRequired = 1;
     singleTap.numberOfTouchesRequired = 1;
-    [singleTap requireGestureRecognizerToFail:doubleTap];
     [self.coverView addGestureRecognizer:singleTap];
     
     
@@ -239,7 +240,7 @@ typedef enum
 - (void)handleDoubleShareTap:(UIGestureRecognizer *)gestureRecognizer
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     CGPoint point = [gestureRecognizer locationInView: gestureRecognizer.view];
     NSLog(@"handleDoubletapGesture %@", NSStringFromCGPoint(point));
@@ -249,7 +250,7 @@ typedef enum
 - (void)handleMousePressGesture:(UIGestureRecognizer *)gestureRecognizer
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
@@ -266,7 +267,7 @@ typedef enum
 - (void)handleSingleShareTap:(UIGestureRecognizer *)gestureRecognizer
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     CGPoint point = [gestureRecognizer locationInView: gestureRecognizer.view];
     NSLog(@"handleSingleShareTap %@", NSStringFromCGPoint(point));
@@ -277,7 +278,7 @@ typedef enum
 - (void)handleLongPressGesture:(UIGestureRecognizer *)gestureRecognizer
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
@@ -290,7 +291,7 @@ typedef enum
 - (void)handlePanGesture:(UIPanGestureRecognizer *)gestureRecognizer
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     CGPoint velocity = [gestureRecognizer velocityInView: gestureRecognizer.view];
     
@@ -379,7 +380,7 @@ typedef enum
 - (void)onClickGrap
 {
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if ([ms isHaveRemoteControlRight]) {
+    if (![ms isRemoteController]) {
         MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
         [ms grabRemoteControl:self.remoteShareView];
     }
@@ -387,8 +388,9 @@ typedef enum
 
 - (void)onClickInput
 {
+
     MobileRTCRemoteControlService * ms = [[MobileRTC sharedRTC] getRemoteControlService];
-    if (![ms isHaveRemoteControlRight])return;
+    if (![ms isRemoteController])return;
     
     if ([self.keyboardView isFirstResponder])
     {

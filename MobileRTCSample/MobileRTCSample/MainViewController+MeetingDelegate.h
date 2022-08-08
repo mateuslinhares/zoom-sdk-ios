@@ -31,4 +31,5 @@
 
 - (void)onClickedDialOut:(UIViewController*)parentVC isCallMe:(BOOL)me;
 
+- (void)onWaitExternalSessionKey:(NSData*)key;
 @end

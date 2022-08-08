@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SDKAuthPresenter.h"
+
 /**
 * We recommend that, you can generate jwttoken on your own server instead of hardcore in the code.
 * We hardcore it here, just to run the demo.
@@ -25,9 +25,9 @@
 #define kSDKDomain   @""
 
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, MobileRTCPremeetingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) SDKAuthPresenter *authPresenter;
+
 - (UIViewController *)topViewController;
 @end

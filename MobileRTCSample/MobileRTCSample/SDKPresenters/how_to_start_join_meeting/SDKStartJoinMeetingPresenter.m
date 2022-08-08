@@ -72,6 +72,7 @@
     if (enableRawdataSend) {
         MeetingSettingsViewController *meetingSetting = [[MeetingSettingsViewController alloc] init];
         [meetingSetting enableSendRawdata:YES];
+        [meetingSetting release];
     }
 }
 
@@ -81,6 +82,7 @@
     self.customMeetingVC = nil;
     
     [[MobileRTC sharedRTC] getMeetingService].customizedUImeetingDelegate = nil;
+    [super dealloc];
 }
 
 @end

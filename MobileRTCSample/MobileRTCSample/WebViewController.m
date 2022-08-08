@@ -74,6 +74,7 @@
 - (void)dealloc
 {
     self.webView = nil;
+    [super dealloc];
 }
 
 /*

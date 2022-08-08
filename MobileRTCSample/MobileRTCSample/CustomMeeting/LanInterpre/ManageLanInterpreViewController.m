@@ -48,10 +48,12 @@
         interpreter.languageID2 = item.getLanguageID2;
         interpreter.isAvailable = item.isAvailable;
         [self.tableDataSource addObject:interpreter];
+        [interpreter release];
     }
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style: UIBarButtonSystemItemDone target: self action: @selector(onDoneBtnClicked:)];
     [self.navigationItem setRightBarButtonItem:rightItem];
+    [rightItem release];
     
     float h;
     if (IPHONE_X) {
@@ -155,6 +157,7 @@
     interpreter.isAvailable = YES;
     [self.tableDataSource addObject:interpreter];
     [self.addArray addObject:interpreter];
+    [interpreter release];
     [self.tableView reloadData];
 }
 

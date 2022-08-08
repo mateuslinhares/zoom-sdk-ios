@@ -36,6 +36,7 @@
 {
     self.videoView = nil;
     self.preVideoView = nil;
+    [super dealloc];
 }
 
 - (void)viewDidLayoutSubviews

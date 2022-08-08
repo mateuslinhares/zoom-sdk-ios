@@ -29,13 +29,13 @@
 
 @interface IntroViewController ()<UIScrollViewDelegate>
 
-@property (strong, nonatomic)  UIScrollView *scrollView;
-@property (strong, nonatomic)  UIPageControl *pageControl;
+@property (retain, nonatomic)  UIScrollView *scrollView;
+@property (retain, nonatomic)  UIPageControl *pageControl;
 
-@property (strong, nonatomic)  UIView *firstView;
-@property (strong, nonatomic)  UIView *secondView;
-@property (strong, nonatomic)  UIView *thirdView;
-@property (strong, nonatomic)  UIView *forthView;
+@property (retain, nonatomic)  UIView *firstView;
+@property (retain, nonatomic)  UIView *secondView;
+@property (retain, nonatomic)  UIView *thirdView;
+@property (retain, nonatomic)  UIView *forthView;
 
 @end
 
@@ -72,6 +72,8 @@
     
     self.scrollView = nil;
     self.pageControl = nil;
+    
+//    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,7 +91,7 @@
     CGRect bounds = self.view.bounds;
     
     
-    if(bounds.size.height > 812.0f) {
+    if(fabs(bounds.size.height - 812.0f) < 0.01f) {
         self.pageControl.frame = CGRectMake(0, bounds.size.height-kPageHeight - 34, bounds.size.width, kPageHeight);
     } else {
         self.pageControl.frame = CGRectMake(0, bounds.size.height-kPageHeight, bounds.size.width, kPageHeight);

@@ -75,6 +75,7 @@ const CGFloat TOP_BTN_LEN = 40;
     
     self.actionPresenter = nil;
     self.videoPresenter = nil;
+    [super dealloc];
 }
 
 - (UILabel*)titleLabel

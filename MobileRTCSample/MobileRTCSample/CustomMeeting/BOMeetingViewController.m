@@ -11,13 +11,10 @@
 typedef NS_ENUM(NSUInteger, BOActions) {
     // creator
     BOCreator_CreateBO = 100,
-    BOCreator_CreateBOInBatch,
     BOCreator_UpdateBO,
     BOCreator_RemoveBO,
     BOCreator_AssignUserToBO,
     BOCreator_RemoveUser,
-    BOCreator_SetBOOption,
-    BOCreator_GetBOOption,
     
     // Admin
     BOAdmin_StartBO,
@@ -27,7 +24,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
     BOAdmin_CanStartBO,
     BOAdmin_BroadcastMessage,
     BOAdmin_HandleHelpRequest,
-    BOCreator_InviteBOUserReturnToMainSession,
     
     // Assistant
     BOAssistant_JoinBO,
@@ -47,9 +43,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
     BODataHelper_GetBOMeeting,
     BODataHelper_GetMyBOName,
     BODataHelper_IsBOUserMyself,
-    
-    // BOService
-    BOService_GetBOStatus,
 };
 
 @interface BOMeetingViewController () <UITableViewDataSource, UITableViewDelegate, MobileRTCMeetingServiceDelegate>
@@ -92,8 +85,11 @@ typedef NS_ENUM(NSUInteger, BOActions) {
 }
 
 - (void)dealloc {
+    [_dataSource release];
     _dataSource = nil;
+    [_tableView release];
     _tableView = nil;
+    [super dealloc];
 }
 
 - (void)handleBOHelpInOrder {
@@ -159,13 +155,11 @@ typedef NS_ENUM(NSUInteger, BOActions) {
     MobileRTCBOCreator *creator = [[[MobileRTC sharedRTC] getMeetingService] getCreatorHelper];
     if (creator) {
         [self.dataSource addObject:@(BOCreator_CreateBO)];
-        [self.dataSource addObject:@(BOCreator_CreateBOInBatch)];
         [self.dataSource addObject:@(BOCreator_UpdateBO)];
         [self.dataSource addObject:@(BOCreator_RemoveBO)];
         [self.dataSource addObject:@(BOCreator_AssignUserToBO)];
         [self.dataSource addObject:@(BOCreator_RemoveUser)];
-        [self.dataSource addObject:@(BOCreator_SetBOOption)];
-        [self.dataSource addObject:@(BOCreator_GetBOOption)];
+        
         NSLog(@"---BO--- Get Own Creator");
     }
     
@@ -190,7 +184,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
         [self.dataSource addObject:@(BOAdmin_CanStartBO)];
         [self.dataSource addObject:@(BOAdmin_BroadcastMessage)];
         [self.dataSource addObject:@(BOAdmin_HandleHelpRequest)];
-        [self.dataSource addObject:@(BOCreator_InviteBOUserReturnToMainSession)];
         NSLog(@"---BO--- Get Own Admin");
     }
     
@@ -211,11 +204,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
         [self.dataSource addObject:@(BOAttendee_IsHostInThisBO)];
         
         NSLog(@"---BO--- Get Own Attendee");
-    }
-    
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (ms) {
-        [self.dataSource addObject:@(BOService_GetBOStatus)];
     }
 }
 
@@ -325,36 +313,11 @@ typedef NS_ENUM(NSUInteger, BOActions) {
             }
             NSDate *date = [NSDate date];
             NSString *boName = [NSString stringWithFormat:@"BO%@", @([date timeIntervalSince1970])];
-            NSString * boMeetingId = [creator createBO:boName];
-            NSLog(@"creator create BO: %@", boMeetingId? @"Success" : @"Fail");
+            BOOL ret = [creator createBO:boName];
+            NSLog(@"creator create BO: %@", ret? @"Success" : @"Fail");
             
             alertController = [UIAlertController alertControllerWithTitle:@"Create BO Name"
                                                                   message:boName
-                                                           preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:nil]];
-        }
-            break;
-        case BOCreator_CreateBOInBatch:
-        {
-            if (!creator) {
-                NSLog(@"no object");
-                return;
-            }
-            NSMutableArray<NSString *> *boNameList = [NSMutableArray array];
-            NSMutableString *batchBoNames = [@"" mutableCopy];
-            for (int index = 0; index < 10; index++) {
-                NSString *boName = [NSString stringWithFormat:@"Batch_BO_%02d", index + 1];
-                [boNameList addObject:boName];
-                [batchBoNames appendFormat:@"%@\n", boName];
-            }
-            
-            BOOL ret = [creator createGroupBO:boNameList];
-            NSLog(@"creator create BO: %@", ret? @"Success" : @"Fail");
-            
-            alertController = [UIAlertController alertControllerWithTitle:@"Create BO Names"
-                                                                  message:batchBoNames
                                                            preferredStyle:UIAlertControllerStyleAlert];
             [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                                 style:UIAlertActionStyleCancel
@@ -468,83 +431,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
                 }
                 [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                                     style:UIAlertActionStyleDefault
-                                                                  handler:nil]];
-            }
-            break;
-        case BOCreator_SetBOOption:
-            {
-                if (!creator) {
-                    NSLog(@"no object");
-                    return;
-                }
-                
-                MobileRTCBOOption *option = [[MobileRTCBOOption alloc] init];
-                option.countdownSeconds = MobileRTCBOStopCountDown_Seconds_30;
-                option.isParticipantCanChooseBO = NO;
-                option.isParticipantCanReturnToMainSessionAtAnyTime = NO;
-                option.isAutoMoveAllAssignedParticipantsEnabled = NO;
-                option.isBOTimerEnabled = YES;
-                option.isTimerAutoStopBOEnabled = NO;
-                option.timerDuration = 2 * 60;
-                BOOL ret = [creator setBOOption:option];
-                
-                NSLog(@"creator setBOOption: %@", ret? @"Success" : @"Fail");
-                NSString *alertMessageFmt = @"count_down_second:%@\n"
-                @"isParticipantCanChooseBO:%@\n"
-                @"isParticipantCanReturnToMainSessionAtAnyTime:%@\n"
-                @"isAutoMoveAllAssignedParticipantsEnabled:%@\n"
-                @"isBOTimerEnabled:%@\n"
-                @"isTimerAutoStopBOEnabled:%@\n"
-                @"timerDuration:%ds\n";
-                NSString *alertMessage = [NSString stringWithFormat:alertMessageFmt,
-                                          @"30 s",
-                                          option.isParticipantCanChooseBO ? @"Y": @"N",
-                                          option.isParticipantCanReturnToMainSessionAtAnyTime ? @"Y": @"N",
-                                          option.isAutoMoveAllAssignedParticipantsEnabled ? @"Y": @"N",
-                                          option.isBOTimerEnabled ? @"Y": @"N",
-                                          option.isTimerAutoStopBOEnabled ? @"Y": @"N",
-                                          option.timerDuration];
-                
-                alertController = [UIAlertController alertControllerWithTitle:@"creator setBOOption"
-                                                                      message:alertMessage
-                                                               preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:nil]];
-            }
-            break;
-        case BOCreator_GetBOOption:
-            {
-                if (!creator) {
-                    NSLog(@"no object");
-                    return;
-                }
-                
-                MobileRTCBOOption *BOOption = [creator getBOOption];
-                
-                NSLog(@"creator getBOOption: %@", BOOption? @"Success" : @"Fail");
-                
-                NSString *alertMessageFmt = @"count_down_second:%@\n"
-                @"isParticipantCanChooseBO:%@\n"
-                @"isParticipantCanReturnToMainSessionAtAnyTime:%@\n"
-                @"isAutoMoveAllAssignedParticipantsEnabled:%@\n"
-                @"isBOTimerEnabled:%@\n"
-                @"isTimerAutoStopBOEnabled:%@\n"
-                @"timerDuration:%ds\n";
-                NSString *alertMessage = [NSString stringWithFormat:alertMessageFmt,
-                                          @(BOOption.countdownSeconds),
-                                          BOOption.isParticipantCanChooseBO ? @"Y": @"N",
-                                          BOOption.isParticipantCanReturnToMainSessionAtAnyTime ? @"Y": @"N",
-                                          BOOption.isAutoMoveAllAssignedParticipantsEnabled ? @"Y": @"N",
-                                          BOOption.isBOTimerEnabled ? @"Y": @"N",
-                                          BOOption.isTimerAutoStopBOEnabled ? @"Y": @"N",
-                                          BOOption.timerDuration];
-                
-                alertController = [UIAlertController alertControllerWithTitle:@"creator getBOOption"
-                                                                      message:alertMessage
-                                                               preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleCancel
                                                                   handler:nil]];
             }
             break;
@@ -685,39 +571,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
             [self handleBOHelpInOrder];
         }
             break;
-        case BOCreator_InviteBOUserReturnToMainSession:
-            {
-                if (!admin || !dataHelper) {
-                    NSLog(@"no object");
-                    return;
-                }
-                
-                NSArray *meetingIDArr = [dataHelper getBOMeetingIDList];
-                
-                alertController = [UIAlertController alertControllerWithTitle:@"Invite all user return to main session"
-                                                                      message:nil
-                                                               preferredStyle:UIAlertControllerStyleActionSheet];
-                for (int i = 0; i < meetingIDArr.count; i++) {
-                    NSString *boId = meetingIDArr[i];
-                    MobileRTCBOMeeting *meeting = [dataHelper getBOMeetingByID:boId];
-                    
-                    [alertController addAction:[UIAlertAction actionWithTitle:meeting.getBOMeetingName
-                                                                        style:UIAlertActionStyleDefault
-                                                                      handler:^(UIAlertAction * _Nonnull action) {
-                        NSArray *boUserList = [meeting getBOMeetingUserList];
-                        for (int u = 0; u < boUserList.count; u++) {
-                            NSString *userId = boUserList[u];
-                            BOOL ret = [admin inviteBOUserReturnToMainSession:userId];
-                            NSLog(@"inviteBOUserReturnToMainSession: %@", ret? @"Success" : @"Fail");
-                        }
-                    }]];
-                }
-                [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleDefault
-                                                                  handler:nil]];
-            }
-            break;
-            
             
         // Assistant
         case BOAssistant_JoinBO:
@@ -989,18 +842,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
                                                                     style:UIAlertActionStyleCancel
                                                                   handler:nil]];
             }
-            break;
-        case BOService_GetBOStatus:
-        {
-            MobileRTCBOStatus boStatus = [[[MobileRTC sharedRTC] getMeetingService] getBOStatus];
-            alertController = [UIAlertController alertControllerWithTitle:@"BOService_GetBOStatus"
-                                                                                     message:[NSString stringWithFormat:@"BOService_GetBOStatus = %@",@(boStatus)]
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:nil]];
-        }
-            
         default:
             NSLog(@"not support now");
             break;
@@ -1023,8 +864,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
         // creator
         case BOCreator_CreateBO:
             return @"BOCreator_CreateBO";
-        case BOCreator_CreateBOInBatch:
-            return @"BOCreator_CreateBOInBatch";
         case BOCreator_UpdateBO:
             return @"BOCreator_UpdateBO";
         case BOCreator_RemoveBO:
@@ -1033,11 +872,7 @@ typedef NS_ENUM(NSUInteger, BOActions) {
             return @"BOCreator_AssignUserToBO";
         case BOCreator_RemoveUser:
             return @"BOCreator_RemoveUser";
-        case BOCreator_SetBOOption:
-            return @"BOCreator_SetBOOption";
-        case BOCreator_GetBOOption:
-            return @"BOCreator_GetBOOption";
-
+        
         // Admin
         case BOAdmin_StartBO:
             return @"BOAdmin_StartBO";
@@ -1061,8 +896,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
             helpReqCellName = [NSString stringWithFormat:@"%@(%@)", helpReqCellName, @(array.count)];
             return helpReqCellName;
         }
-        case BOCreator_InviteBOUserReturnToMainSession:
-            return @"BOCreator_InviteBOUserReturnToMainSession";
         
         // Assistant
         case BOAssistant_JoinBO:
@@ -1095,9 +928,6 @@ typedef NS_ENUM(NSUInteger, BOActions) {
             return @"BODataHelper_GetMyBOName";
         case BODataHelper_IsBOUserMyself:
             return @"BODataHelper_IsBOUserMyself";
-            
-        case BOService_GetBOStatus:
-            return @"BOService_GetBOStatus";
             
         default:
             return @"not support";

@@ -9,8 +9,8 @@
 #import "SelectLanguageViewController.h"
 
 @interface SelectLanguageViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong)   UITableView     *tableView;
-@property (nonatomic, strong)   NSArray         *tableDataSource;
+@property (nonatomic, strong)   UITableView           *tableView;
+@property (nonatomic, strong)   NSMutableArray        *tableDataSource;
 
 @end
 
@@ -57,6 +57,7 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style: UIBarButtonSystemItemDone target: self action: @selector(onDoneBtnClicked:)];
     [self.navigationItem setRightBarButtonItem:rightItem];
+    [rightItem release];
 }
 
 - (void)onDoneBtnClicked:(id)sender

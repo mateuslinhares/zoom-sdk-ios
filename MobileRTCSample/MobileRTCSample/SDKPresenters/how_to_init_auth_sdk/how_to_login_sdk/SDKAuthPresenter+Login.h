@@ -10,8 +10,8 @@
 
 @interface SDKAuthPresenter (Login)
 
-- (NSString *)getSSODomainWithVanityURL:(NSString *)vanityURL;
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password rememberMe:(BOOL)rememberMe;
 
-- (BOOL)ssoLoginWithWebUriProtocol:(NSString *)protocolURL;
+- (void)loginWithSSOToken:(NSString *)ssoToken rememberMe:(BOOL)rememberMe;
 
 @end

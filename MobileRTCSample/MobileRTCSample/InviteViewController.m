@@ -11,7 +11,7 @@
 
 @interface InviteViewController ()
 
-@property (strong, nonatomic) UILabel *meetingURLLabel;
+@property (retain, nonatomic) UILabel *meetingURLLabel;
 
 @end
 

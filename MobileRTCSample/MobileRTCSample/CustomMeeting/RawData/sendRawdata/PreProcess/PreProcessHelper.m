@@ -73,7 +73,7 @@ static UIImage *waterImage;
                 }
             }
         } else {
-            memcpy(yBuffer + off_x, water_yBuffer + i * waterWidth, waterWidth);//checked safe
+            memcpy(yBuffer + off_x, water_yBuffer + i * waterWidth, waterWidth);
         }
     }
     
@@ -98,8 +98,8 @@ static UIImage *waterImage;
                 
             }
         } else {
-            memcpy(uBuffer+off_x/2, water_uBuffer + i * water_uvWidth, water_uvWidth);//checked safe
-            memcpy(vBuffer+off_x/2, water_vBuffer + i * water_uvWidth, water_uvWidth);//checked safe
+            memcpy(uBuffer+off_x/2, water_uBuffer + i * water_uvWidth, water_uvWidth);
+            memcpy(vBuffer+off_x/2, water_vBuffer + i * water_uvWidth, water_uvWidth);
         }
     }
 }

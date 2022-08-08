@@ -16,11 +16,11 @@
 
 - (void)joinMeeting:(NSString*)meetingNo withPassword:(NSString*)pwd rootVC:(UIViewController *)rootVC;
 
-@property (strong, nonatomic) UIViewController *rootVC;
+@property (retain, nonatomic) UIViewController *rootVC;
 
-@property (strong, nonatomic) CustomMeetingViewController *customMeetingVC;
+@property (retain, nonatomic) CustomMeetingViewController *customMeetingVC;
 
-@property (strong, nonatomic) MainViewController *mainVC;
+@property (retain, nonatomic) MainViewController *mainVC;
 
 
 @end
