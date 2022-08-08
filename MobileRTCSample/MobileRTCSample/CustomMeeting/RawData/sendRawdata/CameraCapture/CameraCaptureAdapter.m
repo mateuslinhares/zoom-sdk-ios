@@ -54,30 +54,26 @@
     self.videoRawdataSender = rawDataSender;
     
     [self createtCameraCaptureSession];
-    NSLog(@"send out camera data, onInitialize");
 }
 
 - (void)onPropertyChange:(NSArray *_Nonnull)supportCapabilityArray suggestCapabilityItem:(MobileRTCVideoCapabilityItem *_Nonnull)suggestCapabilityItem
 {
-    NSLog(@"send out camera data, onPropertyChange");
+    
 }
 
 - (void)onStartSend
 {
     [self.captureSession startRunning];
-    NSLog(@"send out camera data, onStartSend");
 }
 
 - (void)onStopSend
 {
     [self.captureSession stopRunning];
-    NSLog(@"send out camera data, onStopSend");
 }
 
 - (void)onUninitialized
 {
     self.captureSession = nil;
-    NSLog(@"send out camera data, onUninitialized");
 }
 
 - (void)createtCameraCaptureSession

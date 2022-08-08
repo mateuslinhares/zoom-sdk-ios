@@ -62,6 +62,8 @@
  */
 - (BOOL)isAllowPanelistStartVideo;
 
+
+#pragma mark Q&A relate Action in Webinar Meeting
 /*!
  @brief Allow Panelist to start video in Webinar.
  @param enable Enable/Disable Panelist to start video.
@@ -70,7 +72,6 @@
  */
 - (BOOL)allowPanelistStartVideo:(BOOL)enable;
 
-#pragma mark Q&A relate Action in Webinar Meeting
 /*!
  @brief Query if it is allowed to ask question anonymously in webinar.
  @return YES means allowed, otherwise not.
@@ -131,35 +132,35 @@
  @brief Get all questions.
  @return All questions list.
  */
-- (nullable NSArray <MobileRTCQAItem *> *)getAllQuestionList;
+- (nullable NSArray *)getAllQuestionList;
 
 /*!
  @brief Get My questions.
  @return My questions list.
  @warning Only attendee can run the function.
  */
-- (nullable NSArray <MobileRTCQAItem *> *)getMyQuestionList;
+- (nullable NSArray *)getMyQuestionList;
 
 /*!
  @brief Get Open questions.
  @return Open questions list.
  @warning Only meeting host/co-host/panelist can run the function.
  */
-- (nullable NSArray <MobileRTCQAItem *> *)getOpenQuestionList;
+- (nullable NSArray *)getOpenQuestionList;
 
 /*!
  @brief Get Dismissed questions.
  @return Dismissed questions list.
  @warning Only meeting host/co-host/panelist can run the function.
  */
-- (nullable NSArray <MobileRTCQAItem *> *)getDismissedQuestionList;
+- (nullable NSArray *)getDismissedQuestionList;
 
 /*!
  @brief Get Answered questions.
  @return Answered questions list.
  @warning Only meeting host/co-host/panelist can run the function.
  */
-- (nullable NSArray <MobileRTCQAItem *> *)getAnsweredQuestionList;
+- (nullable NSArray *)getAnsweredQuestionList;
 
 /*!
  @brief Get the amount of all questions.

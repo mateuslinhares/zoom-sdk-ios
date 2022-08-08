@@ -24,14 +24,14 @@
  @return user id array, each user id is a NSNumber object.
  @warning For Webinar Meeting, returned list does not include Attendee User
  */
-- (nullable NSArray <NSNumber *> *)getInMeetingUserList;
+- (nullable NSArray*)getInMeetingUserList;
 
 /*!
  @brief Get all the attendees in the webinar.
  @return user id array, each Attendee id is a NSNumber object.
  @warning Only webinar meeting host/co-host/panelist can run the function.
  */
-- (nullable NSArray <NSNumber *> *)getWebinarAttendeeList;
+- (nullable NSArray*)getWebinarAttendeeList;
 /*!
  @brief Get user information in the meeting.
  @param userId In-meeting user ID.
@@ -59,7 +59,7 @@
  @brief Remove a user from the meeting.
  @param userId The ID of user to be removed from the meeting.
  @return YES means that the method is called successfully, otherwise not.
- @warning The method is available only for the host/co-host, and the host/co-host can not remove himself.
+ @warning The method is available only for the host, and the host can not remove himself.
  */
 - (BOOL)removeUser:(NSUInteger)userId;
 
@@ -118,14 +118,13 @@
 /*!
  @brief Put hands down of the current user.
  @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/cohost can run the function when in meeting.
  */
 - (BOOL)lowerHand:(NSUInteger)userId;
 
 /*!
  @brief Set to put all users' hands down.
  @return YES means that the method is called successfully, otherwise not.
- @@warning Only meeting host/cohost can run the function when in meeting.
+ @warning Only meeting host can run the function.
  */
 - (BOOL)lowerAllHand;
 

@@ -100,7 +100,7 @@
 - (void)switchMyAudioSource
 {
     MobileRTCAudioError error = [[[MobileRTC sharedRTC] getMeetingService] switchMyAudioSource];
-    NSLog(@"Switch My Audio error:%@...", @(error));
+    NSLog(@"Switch My Audio error:%d...", error);
 }
 
 - (MobileRTCAudioType)myAudioType

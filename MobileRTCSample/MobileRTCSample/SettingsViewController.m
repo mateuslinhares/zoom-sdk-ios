@@ -200,12 +200,6 @@
         long long meetingNum = [item getMeetingNumber];
         NSString *topic = [item getMeetingTopic];
         
-// for test "- (BOOL)asyncGetInviteEmailContent"
-//        if (i == 1) {
-//            BOOL ret = [item asyncGetInviteEmailContent];
-//            NSLog(@"asyncGetInviteEmailContent===>%@",@(ret));
-//        }
-        
          [alertController addAction:[UIAlertAction actionWithTitle:topic style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 MobileRTCMeetingStartParam4LoginlUser * param = [[[MobileRTCMeetingStartParam4LoginlUser alloc]init]autorelease];
                 param.meetingNumber = [NSString stringWithFormat:@"%@",@(meetingNum)];

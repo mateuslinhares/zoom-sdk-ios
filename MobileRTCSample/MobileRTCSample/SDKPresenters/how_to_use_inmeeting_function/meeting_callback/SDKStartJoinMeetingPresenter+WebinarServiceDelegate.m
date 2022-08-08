@@ -17,32 +17,32 @@
 
 - (void)onSinkQAAllowAskQuestionAnonymouslyNotification:(BOOL)beAllowed
 {
-    NSLog(@"onSinkQAAllowAskQuestionAnonymouslyNotification %@",@(beAllowed));
+    NSLog(@"onSinkQAAllowAskQuestionAnonymouslyNotification %zd",beAllowed);
 }
 
 - (void)onSinkQAAllowAttendeeViewAllQuestionNotification:(BOOL)beAllowed
 {
-    NSLog(@"onSinkQAAllowAttendeeViewAllQuestionNotification %@",@(beAllowed));
+    NSLog(@"onSinkQAAllowAttendeeViewAllQuestionNotification %zd",beAllowed);
 }
 
 - (void)onSinkQAAllowAttendeeUpVoteQuestionNotification:(BOOL)beAllowed
 {
-    NSLog(@"onSinkQAAllowAttendeeUpVoteQuestionNotification %@",@(beAllowed));
+    NSLog(@"onSinkQAAllowAttendeeUpVoteQuestionNotification %zd",beAllowed);
 }
 
 - (void)onSinkQAAllowAttendeeAnswerQuestionNotification:(BOOL)beAllowed
 {
-    NSLog(@"onSinkQAAllowAttendeeAnswerQuestionNotification %@",@(beAllowed));
+    NSLog(@"onSinkQAAllowAttendeeAnswerQuestionNotification %zd",beAllowed);
 }
 
 - (void)onSinkPromptAttendee2PanelistResult:(MobileRTCWebinarPromoteorDepromoteError)errorCode
 {
-    NSLog(@"onSinkPromptAttendee2PanelistResult %@",@(errorCode));
+    NSLog(@"onSinkPromptAttendee2PanelistResult %zd",errorCode);
 }
 
 - (void)onSinkDePromptPanelist2AttendeeResult:(MobileRTCWebinarPromoteorDepromoteError)errorCode
 {
-    NSLog(@"onSinkDePromptPanelist2AttendeeResult %@",@(errorCode));
+    NSLog(@"onSinkDePromptPanelist2AttendeeResult %zd",errorCode);
 }
 
 - (void)onSinkSelfAllowTalkNotification

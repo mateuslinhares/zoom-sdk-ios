@@ -8,6 +8,6 @@
 
 #import "SDKAuthPresenter.h"
 
-@interface SDKAuthPresenter (AuthDelegate)<MobileRTCAuthDelegate, MobileRTCPremeetingDelegate>
+@interface SDKAuthPresenter (AuthDelegate)<MobileRTCAuthDelegate>
 
 @end

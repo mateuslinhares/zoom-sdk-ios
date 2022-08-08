@@ -21,7 +21,6 @@
 #import <MobileRTC/MobileRTCMeetingService+VirtualBackground.h>
 #import <MobileRTC/MobileRTCMeetingService+Interpretation.h>
 #import <MobileRTC/MobileRTCMeetingService+BO.h>
-#import <MobileRTC/MobileRTCMeetingService+Reaction.h>
 #import <MobileRTC/MobileRTCMeetingSettings.h>
 #import <MobileRTC/MobileRTCInviteHelper.h>
 #import <MobileRTC/MobileRTCPremeetingService.h>
@@ -244,7 +243,7 @@
  @warning The languages supported by MobileRTC are English, German, Spanish, Japanese, French, Simplified Chinese, Traditional Chinese.
  @return An array of languages supported by MobileRTC.
  */
-- (NSArray <NSString *> * _Nonnull)supportedLanguages;
+- (NSArray * _Nonnull)supportedLanguages;
 
 /*!
  @brief Set the MobileRTC language.

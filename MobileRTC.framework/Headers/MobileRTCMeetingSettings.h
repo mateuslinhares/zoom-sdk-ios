@@ -349,12 +349,6 @@
 - (void)enableMicOriginalInput:(BOOL)enable;
 
 /*!
-@brief Query reactions on MeetingUI is hidden or not.
-@warning YES means reactions on MeetingUI is hidden, otherwise not.
-*/
-- (BOOL)reactionsOnMeetingUIHidden;
-
-/*!
 @brief Set the visibility of reaction on meeting UI. Default is displaying.
 @param hidden YES means hide reaction emotion.
 @warning The function only for Zoom UI.
@@ -415,18 +409,4 @@
 @warning The function only for Zoom UI.
 */
 - (void)disableCopyMeetingUrl:(BOOL)disabled;
-
-/*!
-@brief Set emoji reaction skin tone.
-@param skinTone The reaction skin tone.
-@warning The function only for Zoom UI.
-*/
-- (MobileRTCMeetError)setReactionSkinTone:(MobileRTCEmojiReactionSkinTone)skinTone;
-
-/*!
-@brief Get reaction skin tone.
-@return skinTone for emoji reaction.
-@warning The function only for Zoom UI.
-*/
-- (MobileRTCEmojiReactionSkinTone)reactionSkinTone;
 @end

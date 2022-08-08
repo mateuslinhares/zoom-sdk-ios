@@ -28,7 +28,7 @@
     param.meetingNumber = kSDKMeetNumber; // if kSDKMeetNumber is empty, it‘s a instant meeting.
     param.isAppShare = appShare;
     MobileRTCMeetError ret = [ms startMeetingWithStartParam:param];
-    NSLog(@"onMeetNow ret:%@", @(ret));
+    NSLog(@"onMeetNow ret:%d", ret);
     return;
 }
 

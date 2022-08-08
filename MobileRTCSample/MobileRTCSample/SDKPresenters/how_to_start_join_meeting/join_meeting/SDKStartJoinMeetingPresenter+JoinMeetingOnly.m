@@ -36,7 +36,7 @@
         
         MobileRTCMeetError ret = [ms joinMeetingWithJoinParam:joinParam];
         
-        NSLog(@"onJoinaMeeting ret:%@", @(ret));
+        NSLog(@"onJoinaMeeting ret:%d", ret);
 
     }
 }
