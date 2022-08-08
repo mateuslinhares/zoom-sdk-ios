@@ -36,7 +36,6 @@
 {
     self.shareView = nil;
     self.remoteControl = nil;
-    [super dealloc];
 }
 
 - (void)viewDidLayoutSubviews

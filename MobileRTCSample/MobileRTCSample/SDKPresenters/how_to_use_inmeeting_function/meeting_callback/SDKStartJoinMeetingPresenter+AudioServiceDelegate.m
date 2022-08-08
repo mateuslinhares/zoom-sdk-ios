@@ -15,6 +15,7 @@
 
 - (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID
 {
+    NSLog(@"MobileRTC onSinkMeetingAudioStatusChange=%@",@(userID));
     if (self.customMeetingVC)
     {
         [self.customMeetingVC onSinkMeetingAudioStatusChange:userID];
@@ -23,30 +24,40 @@
 
 - (void)onSinkMeetingAudioStatusChange:(NSUInteger)userID audioStatus:(MobileRTC_AudioStatus)audioStatus
 {
-    NSLog(@"onSinkMeetingAudioStatusChange=%@, audioStatus=%@",@(userID), @(audioStatus));
+    NSLog(@"MobileRTC onSinkMeetingAudioStatusChange=%@, audioStatus=%@",@(userID), @(audioStatus));
 }
 
 - (void)onSinkMeetingMyAudioTypeChange
 {
+    NSLog(@"MobileRTC onSinkMeetingMyAudioTypeChange");
     if (self.customMeetingVC)
     {
         [self.customMeetingVC onSinkMeetingMyAudioTypeChange];
     }
 }
 
+- (void)onSinkMeetingAudioTypeChange:(NSUInteger)userID
+{
+    NSLog(@"MobileRTC onSinkMeetingAudioTypeChange:%@",@(userID));
+}
+
 - (void)onMyAudioStateChange
 {
+    NSLog(@"MobileRTC onMyAudioStateChange");
     if (self.customMeetingVC)
     {
         [self.customMeetingVC onSinkMeetingAudioStatusChange:0];
     }
 }
 
-#if 0
 - (void)onSinkMeetingAudioRequestUnmuteByHost
 {
-    NSLog(@"the host require meeting attendants to enable microphone");
+    NSLog(@"MobileRTC onSinkMeetingAudioRequestUnmuteByHost");
 }
-#endif
+
+- (void)onAudioOutputChange
+{
+    NSLog(@"MobileRTC onAudioOutputChange");
+}
 
 @end

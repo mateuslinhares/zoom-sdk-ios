@@ -9,10 +9,10 @@
 #import "SDKAuthPresenter+AuthDelegate.h"
 
 @implementation SDKAuthPresenter (AuthDelegate)
-
+    
 - (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue
 {
-    NSLog(@"onMobileRTCAuthReturn %d", returnValue);
+    NSLog(@"MobileRTC onMobileRTCAuthReturn %@", returnValue == 0 ? @"Success" : @(returnValue));
     
     if (returnValue != MobileRTCAuthError_Success)
     {
@@ -22,20 +22,19 @@
     }
 }
 
-- (void)onMobileRTCLoginReturn:(NSInteger)returnValue
+- (void)onMobileRTCLoginResult:(MobileRTCLoginFailReason)resultValue
 {
-    NSLog(@"onMobileRTCLoginReturn result=%zd", returnValue);
-    
-    MobileRTCPremeetingService *service = [[MobileRTC sharedRTC] getPreMeetingService];
-    if (service)
-    {
-        service.delegate = self;
+    NSLog(@"MobileRTC onMobileRTCLoginResult result: %@", resultValue == MobileRTCLoginFailReason_Success ? @"Success" : @(resultValue));
+    if (resultValue == MobileRTCLoginFailReason_Success) {
+        MobileRTCAccountInfo *accoutInfo = [[[MobileRTC sharedRTC] getAuthService] getAccountInfo];
+        MobileRTCUserType userType = [[[MobileRTC sharedRTC] getAuthService] getUserType];
+        NSLog(@"accoutInfo:%@, User Type:%@", accoutInfo.debugDescription, @(userType));
     }
 }
 
 - (void)onMobileRTCLogoutReturn:(NSInteger)returnValue
 {
-    NSLog(@"onMobileRTCLogoutReturn result=%zd", returnValue);
+    NSLog(@"MobileRTC onMobileRTCLogoutReturn result=%zd", returnValue);
 }
 
 @end

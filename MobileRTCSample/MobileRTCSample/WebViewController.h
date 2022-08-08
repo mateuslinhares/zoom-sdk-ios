@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WebViewController : UINavigationController
 
-@property (retain, nonatomic) WKWebView  *webView;
+@property (strong, nonatomic) WKWebView  *webView;
 
 @end
 

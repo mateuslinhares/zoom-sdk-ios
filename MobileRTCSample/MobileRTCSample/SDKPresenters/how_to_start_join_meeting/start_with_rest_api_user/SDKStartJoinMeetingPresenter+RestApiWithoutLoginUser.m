@@ -34,7 +34,7 @@ typedef enum {
     //Sample for Start Param interface
     MobileRTCMeetingStartParam * param = nil;
 
-    MobileRTCMeetingStartParam4WithoutLoginUser * user = [[[MobileRTCMeetingStartParam4WithoutLoginUser alloc]init] autorelease];
+    MobileRTCMeetingStartParam4WithoutLoginUser * user = [[MobileRTCMeetingStartParam4WithoutLoginUser alloc] init];
     user.userType = MobileRTCUserType_APIUser;
     user.meetingNumber = kSDKMeetNumber;
     user.userName = kSDKUserName;
@@ -53,7 +53,7 @@ typedef enum {
     param = user;
     
     MobileRTCMeetError ret = [ms startMeetingWithStartParam:param];
-    NSLog(@"onMeetNow ret:%d", ret);
+    NSLog(@"onMeetNow ret:%@", @(ret));
     return;
 }
 

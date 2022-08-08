@@ -90,8 +90,6 @@
     
     self.actionPresenter = nil;
     self.sharePresenter = nil;
-    
-    [super dealloc];
 }
 
 - (void)viewDidLayoutSubviews
@@ -137,9 +135,6 @@
 //- (void)showAttendeeVideo:(MobileRTCVideoView*)videoView withUserID:(NSUInteger)userID
 //{
 //    [videoView showAttendeeVideoWithUserID:userID];
-//    CGSize size = [[[MobileRTC sharedRTC] getMeetingService] getUserVideoSize:userID];
-//    if (CGSizeEqualToSize(size, CGSizeZero))
-//        return;
 //    [videoView setVideoAspect:MobileRTCVideoAspect_PanAndScan];
 //}
 
@@ -364,7 +359,6 @@
         UIPanGestureRecognizer *pan =[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(onViewPan:)];
         self.panGesture = pan;
         [self.view addGestureRecognizer:pan];
-        [pan release];
     }
 }
 
@@ -475,15 +469,17 @@
     MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
     NSArray *arr = [ws waitingRoomList];
     MobileRTCMeetingUserInfo *userInfo = [ws waitingRoomUserInfoByID:userId];
-    NSLog(@"Waiting Room: %@", arr);
-    NSLog(@"userInfo: %@", userInfo);
+    NSLog(@"onWaitingRoomUserJoin-waitingRoomList: %@", arr);
+    NSLog(@"onWaitingRoomUserJoin-userInfo: %@", userInfo);
     [ws admitToMeeting:userId];
 }
 
 - (void)onWaitingRoomUserLeft:(NSUInteger)userId {
     MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
+    NSArray *arr = [ws waitingRoomList];
     MobileRTCMeetingUserInfo *userInfo = [ws waitingRoomUserInfoByID:userId];
-    NSLog(@"userInfo: %@", userInfo);
+    NSLog(@"onWaitingRoomUserLeft-waitingRoomList: %@", arr);
+    NSLog(@"onWaitingRoomUserLeft-userInfo: %@", userInfo);
 }
 
 #pragma mark - Annotation service delegate -

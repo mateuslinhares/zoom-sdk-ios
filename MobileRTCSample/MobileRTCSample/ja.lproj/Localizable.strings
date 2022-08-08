@@ -42,6 +42,8 @@
 
 "Face Beauty Enable" = "Touch Up My Appearance";
 
+"Video Mirror Enable" = "Mirror My Video";
+
 "Use Original Sound" = "Use Original Sound";
 
 "Please join meeting with ID: %@" = "Please join meeting with ID: %@";
@@ -179,3 +181,4 @@
 
 "Meeting List" = "Meeting List";
 
+"Change skin tone to %@" = "Change skin tone to %@";

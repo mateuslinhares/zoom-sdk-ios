@@ -20,7 +20,6 @@
     if (!enbleRawdataUI) {
         CustomMeetingViewController *vc = [[CustomMeetingViewController alloc] init];
         self.customMeetingVC = vc;
-        [vc release];
         
         [self.rootVC addChildViewController:self.customMeetingVC];
         [self.rootVC.view addSubview:self.customMeetingVC.view];
@@ -44,7 +43,6 @@
     [self.customMeetingVC willMoveToParentViewController:nil];
     [self.customMeetingVC.view removeFromSuperview];
     [self.customMeetingVC removeFromParentViewController];
-    [self.customMeetingVC release];
     self.customMeetingVC = nil;
 }
 

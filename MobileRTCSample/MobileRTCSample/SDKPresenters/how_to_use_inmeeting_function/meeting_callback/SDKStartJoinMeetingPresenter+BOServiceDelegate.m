@@ -54,35 +54,40 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kBO_NOTIFICATION_DATA_UPDATE object:nil];
 }
 
-- (void)onLostAssistantRightsNotification:(BOOL)isStopBO;
+- (void)onLostAssistantRightsNotification
 {
-    NSLog(@"---BO--- Lost Assistant | stopBO:%@", @(isStopBO));
-    if (isStopBO) {
-        MobileRTCBOAssistant *assistant = [[[MobileRTC sharedRTC] getMeetingService] getAssistantHelper];
-        if (assistant) [assistant leaveBO];
-    }
-    
+    NSLog(@"---BO--- Lost Assistant");
     [[NSNotificationCenter defaultCenter] postNotificationName:kBO_NOTIFICATION_DATA_UPDATE object:nil];
 }
 
-- (void)onLostAttendeeRightsNotification:(BOOL)isStopBO;
+- (void)onLostAttendeeRightsNotification
 {
-    NSLog(@"---BO--- Lost Attendee | stopBO:%@", @(isStopBO));
-    if (isStopBO) {
-        MobileRTCBOAttendee *attendee = [[[MobileRTC sharedRTC] getMeetingService] getAttedeeHelper];
-        if (attendee) [attendee leaveBO];
-    }
-    
+    NSLog(@"---BO--- Lost Attendee");
     [[NSNotificationCenter defaultCenter] postNotificationName:kBO_NOTIFICATION_DATA_UPDATE object:nil];
 }
 
-- (void)onNewBroadcastMessageReceived:(NSString *_Nullable)broadcastMsg {
-    NSLog(@"---BO--- Broadcast Message Received:%@", broadcastMsg);
+- (void)onNewBroadcastMessageReceived:(NSString *_Nullable)broadcastMsg senderID:(NSUInteger)senderID {
+    NSLog(@"---BO--- Broadcast Message Received:%@ senderID:%@", broadcastMsg, @(senderID));
     [[NSNotificationCenter defaultCenter] postNotificationName:kBO_NOTIFICATION_BRODCASET_RECEIVED object:broadcastMsg];
     
 }
 
-- (void)onLostDataHelperRightsNotification;
+- (void)onBOStopCountDown:(NSUInteger)seconds
+{
+    NSLog(@"---BO--- onBOStopCountDown:%@", @(seconds));
+}
+
+- (void)onHostInviteReturnToMainSession:(NSString *_Nullable)hostName replyHandler:(MobileRTCReturnToMainSessionHandler *_Nullable)replyHandler
+{
+    NSLog(@"---BO--- onHostInviteReturnToMainSession hostName=:%@, replyHandler=:%p", hostName, replyHandler);
+}
+
+- (void)onBOStatusChanged:(MobileRTCBOStatus)status
+{
+    NSLog(@"---BO--- onBOStatusChanged status=:%@", @(status));
+}
+
+- (void)onLostDataHelperRightsNotification
 {
     NSLog(@"---BO--- Lost DataHelper");
     [[NSNotificationCenter defaultCenter] postNotificationName:kBO_NOTIFICATION_DATA_UPDATE object:nil];
@@ -130,6 +135,28 @@
 
 - (void)onHostLeaveThisBOMeeting {
     NSLog(@"---BO--- Host has left this BO");
+}
+
+- (void)onBOInfoUpdated:(NSString *_Nullable)boId;
+{
+    NSLog(@"---BO--- BO info updated");
+}
+
+- (void)onUnAssignedUserUpdated
+{
+    NSLog(@"---BO--- un-assigned user updated");
+}
+
+- (void)onStartBOError:(MobileRTCBOControllerError)errType {
+    NSLog(@"---BO--- admin start bo error: %@", @(errType));
+}
+
+- (void)onBOEndTimerUpdated:(NSUInteger)remaining isTimesUpNotice:(BOOL)isTimesUpNotice {
+    NSLog(@"---BO--- admin bo %lu seconds left, isTimesUpNotice: %@", remaining, isTimesUpNotice ? @"Y" : @"N");
+}
+
+- (void)onBOCreateSuccess:(NSString *_Nullable)BOID {
+    NSLog(@"---BO--- creator create success ret bo_id: %@", BOID);
 }
 
 @end

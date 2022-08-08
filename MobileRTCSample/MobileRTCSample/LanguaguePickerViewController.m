@@ -11,7 +11,7 @@
 
 @interface LanguaguePickerViewController ()
 
-@property (nonatomic, retain) NSArray * languageArray;
+@property (nonatomic, strong) NSArray * languageArray;
 
 @end
 

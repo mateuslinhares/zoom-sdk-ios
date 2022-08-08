@@ -72,8 +72,10 @@
     NSLog(@"participantID=%@",@([[[MobileRTC sharedRTC] getMeetingService] getParticipantID]));
     
     MobileRTCCallCountryCode *currentCountryCode = [[[MobileRTC sharedRTC] getMeetingService] getDialInCurrentCountryCode];
+    if (!currentCountryCode) return;
     
     NSArray *countryCodes = [[[MobileRTC sharedRTC] getMeetingService] getDialInCallCodesWithCountryId:currentCountryCode.countryId];
+    if (!countryCodes || countryCodes.count == 0) return;
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:currentCountryCode.countryName
                                                                              message:nil
@@ -100,7 +102,7 @@
 - (void)switchMyAudioSource
 {
     MobileRTCAudioError error = [[[MobileRTC sharedRTC] getMeetingService] switchMyAudioSource];
-    NSLog(@"Switch My Audio error:%d...", error);
+    NSLog(@"Switch My Audio error:%@...", @(error));
 }
 
 - (MobileRTCAudioType)myAudioType

@@ -48,7 +48,6 @@
     _colorButton = nil;
     [_itemArray removeAllObjects];
     _itemArray = nil;
-    [super dealloc];
 }
 
 - (void)initSubView
@@ -69,7 +68,6 @@
     panGesture.maximumNumberOfTouches = 1;
     panGesture.minimumNumberOfTouches = 1;
     [self addGestureRecognizer:panGesture];
-    [panGesture release];
 }
 
 - (void)hideActionView {
@@ -251,14 +249,7 @@
     MobileRTCAnnotationService *annoService = [[MobileRTC sharedRTC] getAnnotationService];
     if (annoService)
     {
-        if ([annoService isPresenter])
-        {
-            [annoService setToolType:MobileRTCAnnoTool_Highligher];
-        }
-        else
-        {
-            [annoService setToolType:MobileRTCAnnoTool_Arrow2];
-        }
+        [annoService setToolType:MobileRTCAnnoTool_Highligher];
     }
 }
 
@@ -266,14 +257,7 @@
     MobileRTCAnnotationService *annoService = [[MobileRTC sharedRTC] getAnnotationService];
     if (annoService)
     {
-        if ([annoService isPresenter])
-        {
-            [annoService setToolType:MobileRTCAnnoTool_Spotlight];
-        }
-        else
-        {
-            [annoService setToolType:MobileRTCAnnoTool_Arrow2];
-        }
+        [annoService setToolType:MobileRTCAnnoTool_Spotlight];
     }
 }
 
@@ -326,7 +310,7 @@
     MobileRTCAnnotationService *annoService = [[MobileRTC sharedRTC] getAnnotationService];
     if (annoService)
     {
-        [annoService setToolWidth:3.0];
+        [annoService setToolWidth:arc4random_uniform(20)];
     }
 }
 

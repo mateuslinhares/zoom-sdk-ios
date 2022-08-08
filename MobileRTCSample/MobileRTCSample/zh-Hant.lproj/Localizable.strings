@@ -42,6 +42,8 @@
 
 "Face Beauty Enable" = "美顏";
 
+"Video Mirror Enable" = "鏡射我的視訊";
+
 "Use Original Sound" = "使用原聲";
 
 "Please join meeting with ID: %@" = "請通過會議ID: %@ 加入會議";
@@ -182,3 +184,5 @@
 "List in the Public Event List" = "在公共會議清單中列出";
 
 "Meeting List" = "會議列表";
+
+"Change skin tone to %@" = "改變表情皮膚為 %@";

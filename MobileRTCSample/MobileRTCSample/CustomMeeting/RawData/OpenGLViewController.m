@@ -70,6 +70,7 @@
     NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     self.audioRawDataSaveSandboxHelper.filePath = [NSString stringWithFormat:@"%@/audio/%@.pcm", docPath, @([[NSDate date] timeIntervalSince1970] * 1000)];
     
+    // for pre-processor
 //    self.processor = [[PreProcessHelper alloc] init];
 //    [self.processor setPreProcessor];
 }
@@ -84,7 +85,6 @@
     
     [self.processor cleanVideoCapturePreProcessor];
     self.processor = nil;
-    [super dealloc];
 }
 
 - (BOOL)shouldAutorotate {
@@ -348,12 +348,18 @@
 //    if ([rawData canAddRef]) {
 //        [rawData addRef];
 //    }
-    
+//
 //    [self.audioRawDataSaveSandboxHelper saveAudioRawdata:rawData];
     
-//        if ([rawData canAddRef]) {
-//            [rawData releaseRef];
-//        }
+//    if ([rawData canAddRef]) {
+//        [rawData releaseRef];
+//    }
+//    NSLog(@"onMobileRTCMixedAudioRawData");
+}
+
+- (void)onMobileRTCOneWayAudioAudioRawData:(MobileRTCAudioRawData *_Nonnull)rawData userId:(NSUInteger)userId
+{
+//    NSLog(@"onMobileRTCOneWayAudioAudioRawData");
 }
 
 #pragma mark - BottomBarViewDelegate -

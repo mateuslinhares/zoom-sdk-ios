@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController+MeetingDelegate.h"
+#import "SendYUVAdapter.h"
 
 @implementation MainViewController (MeetingDelegate)
 
@@ -24,7 +25,6 @@
     [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDefault;
 
     [alert show];
-    [alert release];
 }
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state;
@@ -42,7 +42,7 @@
         [self.view bringSubviewToFront:self.settingButton];
     }
     
-    BOOL inAppShare = [ms isDirectAppShareMeeting] && (state == MobileRTCMeetingState_InMeeting);
+    BOOL inAppShare = (state == MobileRTCMeetingState_InMeeting) && [ms isDirectAppShareMeeting];
     self.expandButton.hidden = !inAppShare;
     self.shareButton.hidden = !inAppShare;
     self.meetButton.hidden = inAppShare;
@@ -90,10 +90,24 @@
         sv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         sv.backgroundColor = [UIColor redColor];
         [v addSubview:sv];
-        [sv release];
     }
     
 #endif
+    
+    if (state == MobileRTCMeetingState_InMeeting)
+    {
+#if 0
+        // Test Send raw data
+        MobileRTCVideoSourceHelper *videoSourceHelper = [[MobileRTCVideoSourceHelper alloc] init];
+        SendYUVAdapter *yuvAdapter = [[SendYUVAdapter alloc] init];
+        [videoSourceHelper setExternalVideoSource:yuvAdapter];
+#endif
+        
+#if 0
+        // Test setMeetingTopic
+        [[[MobileRTC sharedRTC] getMeetingService] setMeetingTopic:@"test"];
+#endif
+    }
 }
 
 - (void)onMeetingReady
@@ -156,7 +170,7 @@
     
 #if 0
     //Sample For Add custom share action item
-    MobileRTCMeetingShareActionItem * item = [[MobileRTCMeetingShareActionItem itemWithTitle:@"Demo share" Tag:1] autorelease];
+    MobileRTCMeetingShareActionItem * item = [MobileRTCMeetingShareActionItem itemWithTitle:@"Demo share" Tag:1];
     
     item.delegate = self;
     
@@ -169,7 +183,7 @@
 //Sample for add customized share item
 - (void)onShareItemClicked:(NSUInteger)tag completion:(BOOL (^)(UIViewController* shareView))completion
 {
-    SplashViewController *splashctrl = [[SplashViewController new] autorelease];
+    SplashViewController *splashctrl = [SplashViewController new];
     
     if (completion && splashctrl)
     {
@@ -209,11 +223,10 @@
 - (BOOL)onClickedInviteButton:(UIViewController*)parentVC addInviteActionItem:(NSMutableArray *)inListArray
 {
     //Sample For Add custom invite action item
-    MobileRTCMeetingInviteActionItem * item = [[MobileRTCMeetingInviteActionItem itemWithTitle:@"test" Action:^{
+    MobileRTCMeetingInviteActionItem * item = [MobileRTCMeetingInviteActionItem itemWithTitle:@"test" Action:^{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"add invite item test", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
         [alert show];
-        [alert release];
-    }] autorelease];
+    }];
 
     [inListArray addObject:item];
     return NO;
@@ -296,41 +309,25 @@
     NSString *callName = me ? nil : @"Dialer";
     BOOL ret = [ms dialOut:@"+866004" isCallMe:me withName:callName];
     NSLog(@"Dial out result: %@", @(ret));
-}
-
-#pragma mark - Handle Session Key
-- (void)onWaitExternalSessionKey:(NSData*)key
-{
-    NSLog(@"session key: %@", key);
-    Byte byte[] = {0x90,0xd7,0x19,0x28,0x7c,0xa5,0x4c,0xfd,0xca,0x89,0x5a,0x31,0x3f,0xf1,0xbc,0x8f,0x9b,0x6c,0x6b,0x4b,0x3e,0xcd,0xfc,0xa8,0xdf,0xda,0x0e,0xe7,0x00,0x4f,0x32,0xc5};
-    NSData *keyData = [[NSData alloc] initWithBytes:byte length:32];
-    NSLog(@"data: %@", keyData);
     
-    MobileRTCE2EMeetingKey *mkChat = [[[MobileRTCE2EMeetingKey alloc] init] autorelease];
-    mkChat.type = MobileRTCComponentType_Chat;
-    mkChat.meetingKey = keyData;
-    mkChat.meetingIv = nil;
-    MobileRTCE2EMeetingKey *mkAudio = [[[MobileRTCE2EMeetingKey alloc] init] autorelease];
-    mkAudio.type = MobileRTCComponentType_AUDIO;
-    mkAudio.meetingKey = keyData;
-    mkAudio.meetingIv = nil;
-    MobileRTCE2EMeetingKey *mkVideo = [[[MobileRTCE2EMeetingKey alloc] init] autorelease];
-    mkVideo.type = MobileRTCComponentType_VIDEO;
-    mkVideo.meetingKey = keyData;
-    mkVideo.meetingIv = nil;
-    MobileRTCE2EMeetingKey *mkShare = [[[MobileRTCE2EMeetingKey alloc] init] autorelease];
-    mkShare.type = MobileRTCComponentType_AS;
-    mkShare.meetingKey = keyData;
-    mkShare.meetingIv = nil;
-    MobileRTCE2EMeetingKey *mkFile = [[[MobileRTCE2EMeetingKey alloc] init] autorelease];
-    mkFile.type = MobileRTCComponentType_FT;
-    mkFile.meetingKey = keyData;
-    mkFile.meetingIv = nil;
-    
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    BOOL ret = [ms handleE2EMeetingKey:@[mkChat, mkAudio, mkVideo, mkShare, mkFile] withLeaveMeeting:NO];
-    NSLog(@"handleE2EMeetingKey ret:%@", @(ret));
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dial out"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"cancel dial out" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [ms cancelDialOut:NO];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"is Dial out inprogress" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            BOOL ret = [ms isDialOutInProgress];
+            NSLog(@"isDialOutInProgress : %@", @(ret));
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil]];
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[appDelegate topViewController] presentViewController:alertController animated:YES completion:nil];
+        
+    });
 }
-
 
 @end

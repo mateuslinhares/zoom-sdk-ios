@@ -24,19 +24,19 @@
 #endif
         
         //For Join a meeting with password
-        MobileRTCMeetingJoinParam * joinParam = [[[MobileRTCMeetingJoinParam alloc]init]autorelease];
+        MobileRTCMeetingJoinParam * joinParam = [[MobileRTCMeetingJoinParam alloc] init];
         joinParam.userName = kSDKUserName;
         joinParam.meetingNumber = meetingNo;
         joinParam.password = pwd;
 //        joinParam.zak = kZAK;
-//        joinParam.participantID = kParticipantID;
+//        joinParam.customerKey = kCustomerKey;
 //        joinParam.webinarToken = kWebinarToken;
 //        joinParam.noAudio = YES;
 //        joinParam.noVideo = YES;
         
         MobileRTCMeetError ret = [ms joinMeetingWithJoinParam:joinParam];
         
-        NSLog(@"onJoinaMeeting ret:%d", ret);
+        NSLog(@"MobileRTC onJoinaMeeting ret: %@", ret == MobileRTCMeetError_Success ? @"Success" : @(ret));
 
     }
 }

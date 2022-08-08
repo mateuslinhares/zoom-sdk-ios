@@ -57,7 +57,6 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style: UIBarButtonSystemItemDone target: self action: @selector(onDoneBtnClicked:)];
     [self.navigationItem setRightBarButtonItem:rightItem];
-    [rightItem release];
 }
 
 - (void)onDoneBtnClicked:(id)sender

@@ -12,54 +12,70 @@
 
 @interface MeetingSettingsViewController ()
 
-@property (retain, nonatomic) UITableViewCell *autoConnectAudioCell;
-@property (retain, nonatomic) UITableViewCell *muteAudioCell;
-@property (retain, nonatomic) UITableViewCell *muteVideoCell;
-@property (retain, nonatomic) UITableViewCell *driveModeCell;
-@property (retain, nonatomic) UITableViewCell *galleryViewCell;
-@property (retain, nonatomic) UITableViewCell *videoPreviewCell;
-@property (retain, nonatomic) UITableViewCell *virtualBackgroundCell;
-@property (retain, nonatomic) UITableViewCell *copyMeetingUrlCell;
+@property (strong, nonatomic) UITableViewCell *autoConnectAudioCell;
+@property (strong, nonatomic) UITableViewCell *muteAudioCell;
+@property (strong, nonatomic) UITableViewCell *muteVideoCell;
+@property (strong, nonatomic) UITableViewCell *driveModeCell;
+@property (strong, nonatomic) UITableViewCell *galleryViewCell;
+@property (strong, nonatomic) UITableViewCell *videoPreviewCell;
+@property (strong, nonatomic) UITableViewCell *virtualBackgroundCell;
+@property (strong, nonatomic) UITableViewCell *copyMeetingUrlCell;
+@property (strong, nonatomic) UITableViewCell *proximityMonitoringCell;
+@property (strong, nonatomic) UITableViewCell *speakerOffWhenInMeetingCell;
+@property (strong, nonatomic) UITableViewCell *disableClearWebkitCacheCell;
 
-@property (retain, nonatomic) UITableViewCell *callInCell;
-@property (retain, nonatomic) UITableViewCell *callOutCell;
-@property (retain, nonatomic) UITableViewCell *minimizeMeetingCell;
+@property (strong, nonatomic) UITableViewCell *callInCell;
+@property (strong, nonatomic) UITableViewCell *callOutCell;
+@property (strong, nonatomic) UITableViewCell *minimizeMeetingCell;
 
-@property (retain, nonatomic) UITableViewCell *faceBeautyCell;
-@property (retain, nonatomic) UITableViewCell *micOriginalInputCell;
+@property (strong, nonatomic) UITableViewCell *faceBeautyCell;
+@property (strong, nonatomic) UITableViewCell *videoMirrorCell;
+@property (strong, nonatomic) UITableViewCell *micOriginalInputCell;
 
-@property (retain, nonatomic) UITableViewCell *titleHiddenCell;
-@property (retain, nonatomic) UITableViewCell *passwordHiddenCell;
-@property (retain, nonatomic) UITableViewCell *leaveHiddenCell;
-@property (retain, nonatomic) UITableViewCell *inviteHiddenCell;
-@property (retain, nonatomic) UITableViewCell *chatHiddenCell;
-@property (retain, nonatomic) UITableViewCell *shareHiddenCell;
-@property (retain, nonatomic) UITableViewCell *audioHiddenCell;
-@property (retain, nonatomic) UITableViewCell *videoHiddenCell;
-@property (retain, nonatomic) UITableViewCell *participantHiddenCell;
-@property (retain, nonatomic) UITableViewCell *moreHiddenCell;
+@property (strong, nonatomic) UITableViewCell *titleHiddenCell;
+@property (strong, nonatomic) UITableViewCell *passwordHiddenCell;
+@property (strong, nonatomic) UITableViewCell *leaveHiddenCell;
+@property (strong, nonatomic) UITableViewCell *inviteHiddenCell;
+@property (strong, nonatomic) UITableViewCell *inviteUrlHiddenCell;
+@property (strong, nonatomic) UITableViewCell *chatHiddenCell;
+@property (strong, nonatomic) UITableViewCell *shareHiddenCell;
+@property (strong, nonatomic) UITableViewCell *audioHiddenCell;
+@property (strong, nonatomic) UITableViewCell *videoHiddenCell;
+@property (strong, nonatomic) UITableViewCell *participantHiddenCell;
+@property (strong, nonatomic) UITableViewCell *moreHiddenCell;
 
-@property (retain, nonatomic) UITableViewCell *topBarHiddenCell;
-@property (retain, nonatomic) UITableViewCell *botBarHiddenCell;
+@property (strong, nonatomic) UITableViewCell *topBarHiddenCell;
+@property (strong, nonatomic) UITableViewCell *botBarHiddenCell;
 
-@property (retain, nonatomic) UITableViewCell *enableKubiCell;
-@property (retain, nonatomic) UITableViewCell *thumbnailCell;
-@property (retain, nonatomic) UITableViewCell *hostLeaveCell;
-@property (retain, nonatomic) UITableViewCell *hintCell;
-@property (retain, nonatomic) UITableViewCell *waitingHUDCell;
-@property (retain, nonatomic) UITableViewCell *webinarQACell;
+@property (strong, nonatomic) UITableViewCell *enableKubiCell;
+@property (strong, nonatomic) UITableViewCell *thumbnailCell;
+@property (strong, nonatomic) UITableViewCell *hostLeaveCell;
+@property (strong, nonatomic) UITableViewCell *hintCell;
+@property (strong, nonatomic) UITableViewCell *disconnectAudioCell;
+@property (strong, nonatomic) UITableViewCell *waitingHUDCell;
+@property (strong, nonatomic) UITableViewCell *webinarQACell;
+@property (strong, nonatomic) UITableViewCell *callinRoomSystemHiddenCell;
+@property (strong, nonatomic) UITableViewCell *calloutRoomSystemHiddenCell;
+@property (strong, nonatomic) UITableViewCell *claimHostWithHostKeyHiddenCell;
+@property (strong, nonatomic) UITableViewCell *closeCaptionHiddenCell;
+@property (strong, nonatomic) UITableViewCell *promoteToPanelistHiddenCell;
+@property (strong, nonatomic) UITableViewCell *changeToAttendeeHiddenCell;
+@property (strong, nonatomic) UITableViewCell *reactionsOnMeetingUIHiddenCell;
+@property (strong, nonatomic) UITableViewCell *recordButtonHiddenCell;
 
-@property (retain, nonatomic) UITableViewCell *customMeetingCell;
-@property (retain, nonatomic) UITableViewCell *rawdataUICell;
+@property (strong, nonatomic) UITableViewCell *customMeetingCell;
+@property (strong, nonatomic) UITableViewCell *rawdataUICell;
 
-@property (retain, nonatomic) UITableViewCell *sendRawdataCell;
+@property (strong, nonatomic) UITableViewCell *sendRawdataCell;
 
-@property (retain, nonatomic) UITableViewCell *showMyMeetingElapseTimeCell;
+@property (strong, nonatomic) UITableViewCell *showMyMeetingElapseTimeCell;
 
-@property (retain, nonatomic) NSArray *itemArray;
+@property (strong, nonatomic) UITableViewCell *reactionSkinToneCell;
+
+@property (strong, nonatomic) NSArray *itemArray;
 
 //SDK Presenter
-@property (retain, nonatomic) SDKMeetingSettingPresenter    *settingPresenter;
+@property (strong, nonatomic) SDKMeetingSettingPresenter    *settingPresenter;
 @end
 
 @implementation MeetingSettingsViewController
@@ -112,11 +128,16 @@
     [disableArray addObject:[self videoPreviewCell]];
     [disableArray addObject:[self virtualBackgroundCell]];
     [disableArray addObject:[self copyMeetingUrlCell]];
+    [disableArray addObject:[self proximityMonitoringCell]];
+    [disableArray addObject:[self speakerOffWhenInMeetingCell]];
+    [disableArray addObject:[self disableClearWebkitCacheCell]];
     [array addObject:disableArray];
     
     NSMutableArray *enableArray = [NSMutableArray array];
     [enableArray addObject:[self faceBeautyCell]];
+    [enableArray addObject:[self videoMirrorCell]];
     [enableArray addObject:[self micOriginalInputCell]];
+    [enableArray addObject:[self reactionSkinToneCell]];
     [array addObject:enableArray];
 
     NSMutableArray *hiddenArray = [NSMutableArray array];
@@ -126,6 +147,7 @@
     [hiddenArray addObject:[self audioHiddenCell]];
     [hiddenArray addObject:[self videoHiddenCell]];
     [hiddenArray addObject:[self inviteHiddenCell]];
+    [hiddenArray addObject:[self inviteUrlHiddenCell]];
     [hiddenArray addObject:[self chatHiddenCell]];
     [hiddenArray addObject:[self participantHiddenCell]];
     [hiddenArray addObject:[self moreHiddenCell]];
@@ -133,9 +155,19 @@
     [hiddenArray addObject:[self topBarHiddenCell]];
     [hiddenArray addObject:[self hostLeaveCell]];
     [hiddenArray addObject:[self hintCell]];
+    [hiddenArray addObject:[self disconnectAudioCell]];
     [hiddenArray addObject:[self waitingHUDCell]];
     [hiddenArray addObject:[self botBarHiddenCell]];
     [hiddenArray addObject:[self webinarQACell]];
+    [hiddenArray addObject:[self callinRoomSystemHiddenCell]];
+    [hiddenArray addObject:[self calloutRoomSystemHiddenCell]];
+    [hiddenArray addObject:[self claimHostWithHostKeyHiddenCell]];
+    [hiddenArray addObject:[self closeCaptionHiddenCell]];
+    [hiddenArray addObject:[self promoteToPanelistHiddenCell]];
+    [hiddenArray addObject:[self changeToAttendeeHiddenCell]];
+    [hiddenArray addObject:[self reactionsOnMeetingUIHiddenCell]];
+    [hiddenArray addObject:[self recordButtonHiddenCell]];
+    
     [array addObject:hiddenArray];
     
     NSMutableArray *showArray = [NSMutableArray array];
@@ -166,6 +198,26 @@
 {
     UITableViewCell *cell = self.itemArray[indexPath.section][indexPath.row];
     return cell;
+}
+
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([cell isEqual:[self reactionSkinToneCell]])
+    {
+        MobileRTCEmojiReactionSkinTone skinTone = [[[MobileRTC sharedRTC] getMeetingSettings] reactionSkinTone];
+        skinTone += 1; skinTone %= (MobileRTCEmojiReactionSkinTone_Dark + 1);
+        if (skinTone == MobileRTCEmojiReactionSkinTone_Unknown) {
+            skinTone = MobileRTCEmojiReactionSkinTone_Default;
+        }
+        [[[MobileRTC sharedRTC] getMeetingSettings] setReactionSkinTone:skinTone];
+        
+        NSString *msg = [NSString stringWithFormat:@"Change skin tone to %@", @(skinTone)];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 //
 //- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
@@ -383,6 +435,79 @@
     }
 }
 
+- (UITableViewCell*)proximityMonitoringCell
+{
+    {
+        MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+        if (!settings)
+            return nil;
+        
+        BOOL disabled = [settings proximityMonitoringDisable];
+        
+        if (!_proximityMonitoringCell)
+        {
+            _proximityMonitoringCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            _proximityMonitoringCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            _proximityMonitoringCell.textLabel.text = NSLocalizedString(@"Disable Proximity Monitoring", @"");
+            
+            UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [sv setOn:disabled animated:NO];
+            [sv addTarget:self action:@selector(onProximityMonitoring:) forControlEvents:UIControlEventValueChanged];
+            _proximityMonitoringCell.accessoryView = sv;
+        }
+        
+        return _proximityMonitoringCell;
+    }
+}
+
+- (UITableViewCell*)speakerOffWhenInMeetingCell
+{
+    {
+        MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+        if (!settings)
+            return nil;
+        
+        BOOL disabled = [settings speakerOffWhenInMeeting];
+        
+        if (!_speakerOffWhenInMeetingCell)
+        {
+            _speakerOffWhenInMeetingCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            _speakerOffWhenInMeetingCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            _speakerOffWhenInMeetingCell.textLabel.text = NSLocalizedString(@"Disable Speaker When In Meeting", @"");
+            
+            UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [sv setOn:disabled animated:NO];
+            [sv addTarget:self action:@selector(onSpeakerWhenInMeeting:) forControlEvents:UIControlEventValueChanged];
+            _speakerOffWhenInMeetingCell.accessoryView = sv;
+        }
+        
+        return _speakerOffWhenInMeetingCell;
+    }
+}
+
+- (UITableViewCell*)disableClearWebkitCacheCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    if (!_disableClearWebkitCacheCell)
+    {
+        BOOL disabled = [settings isDisabledClearWebKitCache];
+        
+        _disableClearWebkitCacheCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _disableClearWebkitCacheCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _disableClearWebkitCacheCell.textLabel.text = NSLocalizedString(@"Disable clean webkit cache", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:disabled animated:NO];
+        [sv addTarget:self action:@selector(onDisableClearWeb:) forControlEvents:UIControlEventValueChanged];
+        _disableClearWebkitCacheCell.accessoryView = sv;
+    }
+    
+    return _disableClearWebkitCacheCell;
+}
+
 - (UITableViewCell*)callInCell
 {
     MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
@@ -474,6 +599,30 @@
     
     return _faceBeautyCell;
 }
+
+- (UITableViewCell*)videoMirrorCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL isMirror = [settings isMirrorEffectEnabled];
+    
+    if (!_videoMirrorCell)
+    {
+        _videoMirrorCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _videoMirrorCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _videoMirrorCell.textLabel.text = NSLocalizedString(@"Video Mirror Enable", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:isMirror animated:NO];
+        [sv addTarget:self action:@selector(onVideoMirrorEnable:) forControlEvents:UIControlEventValueChanged];
+        _videoMirrorCell.accessoryView = sv;
+    }
+    
+    return _videoMirrorCell;
+}
+
 
 - (UITableViewCell*)micOriginalInputCell
 {
@@ -636,6 +785,30 @@
     return _inviteHiddenCell;
 }
 
+- (UITableViewCell*)inviteUrlHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingInviteUrlHidden];
+    
+    if (!_inviteUrlHiddenCell)
+    {
+        _inviteUrlHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _inviteUrlHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _inviteUrlHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Invite Url", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingInviteUrl:) forControlEvents:UIControlEventValueChanged];
+        _inviteUrlHiddenCell.accessoryView = sv;
+    }
+    
+    return _inviteUrlHiddenCell;
+}
+
+
 - (UITableViewCell*)chatHiddenCell
 {
     MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
@@ -797,6 +970,190 @@
     return _webinarQACell;
 }
 
+- (UITableViewCell*)callinRoomSystemHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings callinRoomSystemHidden];
+    
+    if (!_callinRoomSystemHiddenCell)
+    {
+        _callinRoomSystemHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _callinRoomSystemHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _callinRoomSystemHiddenCell.textLabel.text = NSLocalizedString(@"Hide Call In Room System", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onCallinRoomSystem:) forControlEvents:UIControlEventValueChanged];
+        _callinRoomSystemHiddenCell.accessoryView = sv;
+    }
+    
+    return _callinRoomSystemHiddenCell;
+}
+
+- (UITableViewCell*)calloutRoomSystemHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings calloutRoomSystemHidden];
+    
+    if (!_calloutRoomSystemHiddenCell)
+    {
+        _calloutRoomSystemHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _calloutRoomSystemHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _calloutRoomSystemHiddenCell.textLabel.text = NSLocalizedString(@"Hide Call Out Room System", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onCalloutRoomSystem:) forControlEvents:UIControlEventValueChanged];
+        _calloutRoomSystemHiddenCell.accessoryView = sv;
+    }
+    
+    return _calloutRoomSystemHiddenCell;
+}
+
+- (UITableViewCell*)claimHostWithHostKeyHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings claimHostWithHostKeyHidden];
+    
+    if (!_claimHostWithHostKeyHiddenCell)
+    {
+        _claimHostWithHostKeyHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _claimHostWithHostKeyHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _claimHostWithHostKeyHiddenCell.textLabel.text = NSLocalizedString(@"Hide Claim Host With HostKey", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onClaimHostWithHostKey:) forControlEvents:UIControlEventValueChanged];
+        _claimHostWithHostKeyHiddenCell.accessoryView = sv;
+    }
+    
+    return _claimHostWithHostKeyHiddenCell;
+}
+
+- (UITableViewCell*)closeCaptionHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings closeCaptionHidden];
+    
+    if (!_closeCaptionHiddenCell)
+    {
+        _closeCaptionHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _closeCaptionHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _closeCaptionHiddenCell.textLabel.text = NSLocalizedString(@"Hide Close Caption", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onCloseCaption:) forControlEvents:UIControlEventValueChanged];
+        _closeCaptionHiddenCell.accessoryView = sv;
+    }
+    
+    return _closeCaptionHiddenCell;
+}
+
+- (UITableViewCell*)promoteToPanelistHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings promoteToPanelistHidden];
+    
+    if (!_promoteToPanelistHiddenCell)
+    {
+        _promoteToPanelistHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _promoteToPanelistHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _promoteToPanelistHiddenCell.textLabel.text = NSLocalizedString(@"Hide Promote To Panelist", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onPromoteToPanelist:) forControlEvents:UIControlEventValueChanged];
+        _promoteToPanelistHiddenCell.accessoryView = sv;
+    }
+    
+    return _promoteToPanelistHiddenCell;
+}
+
+- (UITableViewCell*)changeToAttendeeHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings changeToAttendeeHidden];
+    
+    if (!_changeToAttendeeHiddenCell)
+    {
+        _changeToAttendeeHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _changeToAttendeeHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _changeToAttendeeHiddenCell.textLabel.text = NSLocalizedString(@"Hide Change To Attendee", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onChangeToAttendee:) forControlEvents:UIControlEventValueChanged];
+        _changeToAttendeeHiddenCell.accessoryView = sv;
+    }
+    
+    return _changeToAttendeeHiddenCell;
+}
+
+- (UITableViewCell*)reactionsOnMeetingUIHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings reactionsOnMeetingUIHidden];
+    
+    if (!_reactionsOnMeetingUIHiddenCell)
+    {
+        _reactionsOnMeetingUIHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _reactionsOnMeetingUIHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _reactionsOnMeetingUIHiddenCell.textLabel.text = NSLocalizedString(@"Hide Reactions OnMeetingUI", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onReactionsOnMeetingUI:) forControlEvents:UIControlEventValueChanged];
+        _reactionsOnMeetingUIHiddenCell.accessoryView = sv;
+    }
+    
+    return _reactionsOnMeetingUIHiddenCell;
+}
+
+- (UITableViewCell*)recordButtonHiddenCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings recordButtonHidden];
+    
+    if (!_recordButtonHiddenCell)
+    {
+        _recordButtonHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _recordButtonHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _recordButtonHiddenCell.textLabel.text = NSLocalizedString(@"Hide Record Button", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onRecordButtonHidden:) forControlEvents:UIControlEventValueChanged];
+        _recordButtonHiddenCell.accessoryView = sv;
+    }
+    
+    return _recordButtonHiddenCell;
+}
+
 - (UITableViewCell*)enableKubiCell
 {
     MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
@@ -907,6 +1264,29 @@
     return _hintCell;
 }
 
+- (UITableViewCell*)disconnectAudioCell
+{
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings disconnectAudioHidden];
+    
+    if (!_disconnectAudioCell)
+    {
+        _disconnectAudioCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _disconnectAudioCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _disconnectAudioCell.textLabel.text = NSLocalizedString(@"Hide disconnect audio in more menu", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onDisconnectAudio:) forControlEvents:UIControlEventValueChanged];
+        _disconnectAudioCell.accessoryView = sv;
+    }
+    
+    return _disconnectAudioCell;
+}
+
 - (UITableViewCell*)waitingHUDCell
 {
     MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
@@ -992,6 +1372,17 @@
     return _showMyMeetingElapseTimeCell;
 }
 
+- (UITableViewCell*)reactionSkinToneCell
+{
+    if (!_reactionSkinToneCell)
+    {
+        _reactionSkinToneCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _reactionSkinToneCell.selectionStyle = UITableViewCellSelectionStyleGray;
+        _reactionSkinToneCell.textLabel.text = NSLocalizedString(@"Change emoji reaction skin tone", @"");
+    }
+    return _reactionSkinToneCell;
+}
+
 - (SDKMeetingSettingPresenter *)settingPresenter
 {
     if (!_settingPresenter) {
@@ -1049,6 +1440,24 @@
     [self.settingPresenter onDisableCopyMeetinUrl:sv.on];
 }
 
+- (void)onProximityMonitoring:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter onProximityMonitoring:sv.on];
+}
+
+- (void)onSpeakerWhenInMeeting:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter onSpeakerWhenInMeeting:sv.on];
+}
+
+- (void)onDisableClearWeb:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter onDisableClearWeb:sv.on];
+}
+
 - (void)onDisableCallIn:(id)sender
 {
     UISwitch *sv = (UISwitch*)sender;
@@ -1071,6 +1480,12 @@
 {
     UISwitch *sv = (UISwitch*)sender;
     [self.settingPresenter faceBeautyEnable:sv.on];
+}
+
+- (void)onVideoMirrorEnable:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter videoMirrorEnable:sv.on];
 }
 
 - (void)onMicOriginalInputEnable:(id)sender
@@ -1113,6 +1528,12 @@
 {
     UISwitch *sv = (UISwitch*)sender;
     [self.settingPresenter setMeetingInviteHidden:sv.on];
+}
+
+- (void)onHideMeetingInviteUrl:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setMeetingInviteUrlHidden:sv.on];
 }
 
 - (void)onHideMeetingChat:(id)sender
@@ -1158,6 +1579,54 @@
     [self.settingPresenter setQaButtonHidden:sv.on];
 }
 
+- (void)onCallinRoomSystem:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setCallinRoomSystemHidden:sv.on];
+}
+
+- (void)onCalloutRoomSystem:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setCalloutRoomSystemHidden:sv.on];
+}
+
+- (void)onClaimHostWithHostKey:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setClaimHostWithHostKeyHidden:sv.on];
+}
+
+- (void)onCloseCaption:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setCloseCaptionHidden:sv.on];
+}
+
+- (void)onPromoteToPanelist:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setPromoteToPanelistHidden:sv.on];
+}
+
+- (void)onChangeToAttendee:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setChangeToAttendeeHiddenHidden:sv.on];
+}
+
+- (void)onReactionsOnMeetingUI:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setReactionsOnMeetingUI:sv.on];
+}
+
+- (void)onRecordButtonHidden:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setRecordButtonHidden:sv.on];
+}
+
 - (void)onEnableKubi:(id)sender
 {
     UISwitch *sv = (UISwitch*)sender;
@@ -1182,6 +1651,12 @@
     [self.settingPresenter setHintHidden:sv.on];
 }
 
+- (void)onDisconnectAudio:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [self.settingPresenter setDisconnectAudioHidden:sv.on];
+}
+
 - (void)onHideWaitingHUD:(id)sender
 {
     UISwitch *sv = (UISwitch*)sender;
@@ -1192,16 +1667,18 @@
 {
     UISwitch *sv = (UISwitch*)sender;
     [self.settingPresenter setEnableCustomMeeting:sv.on];
-    
+    BOOL hasRawDataLicense = [[MobileRTC sharedRTC] hasRawDataLicense];
     if (sv.on) {
-        for (int i = 0; i < self.itemArray.count; i++) {
-            NSMutableArray *sectionArray = self.itemArray[i];
-            for (int j = 0; j < sectionArray.count; j++) {
-                UITableViewCell *cell = sectionArray[j];
-                if (Custom_Meeting_Cell_Tag == cell.tag) {
-                    [sectionArray insertObject:[self rawdataUICell] atIndex:j+1];
-                    [self.tableView reloadData];
-                    return;
+        if (hasRawDataLicense) {
+            for (int i = 0; i < self.itemArray.count; i++) {
+                NSMutableArray *sectionArray = self.itemArray[i];
+                for (int j = 0; j < sectionArray.count; j++) {
+                    UITableViewCell *cell = sectionArray[j];
+                    if (Custom_Meeting_Cell_Tag == cell.tag) {
+                        [sectionArray insertObject:[self rawdataUICell] atIndex:j+1];
+                        [self.tableView reloadData];
+                        return;
+                    }
                 }
             }
         }

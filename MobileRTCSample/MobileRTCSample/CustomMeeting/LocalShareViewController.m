@@ -42,8 +42,6 @@
     
     [self.textField removeFromSuperview];
     self.textField = nil;
-    
-    [super dealloc];
 }
 
 - (void)viewDidLayoutSubviews

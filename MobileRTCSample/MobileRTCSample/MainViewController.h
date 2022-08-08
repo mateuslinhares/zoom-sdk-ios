@@ -21,25 +21,26 @@ typedef void (^RTCJoinMeetingActionBlock)(NSString * _Nullable, NSString * _Null
 #define kSDKMeetNumber  @""
 #define kZAK @""
 //the following parameters are optional, just for login user
-#define kParticipantID  @""
+#define kCustomerKey  @""
 #define kWebinarToken   @""
 
 @interface MainViewController : UIViewController
 
-@property (retain, nonatomic) UIButton *meetButton;
-@property (retain, nonatomic) UIButton *joinButton;
+@property (strong, nonatomic) UIButton * _Nullable meetButton;
+@property (strong, nonatomic) UIButton * _Nullable joinButton;
 
-@property (retain, nonatomic) UIButton *shareButton;
-@property (retain, nonatomic) UIButton *expandButton;
-@property (retain, nonatomic) UIButton *settingButton;
+@property (strong, nonatomic) UIButton * _Nullable shareButton;
+@property (strong, nonatomic) UIButton * _Nullable expandButton;
+@property (strong, nonatomic) UIButton * _Nullable settingButton;
 
-@property (retain, nonatomic) IntroViewController  *introVC;
-@property (retain, nonatomic) SplashViewController *splashVC;
-@property (retain, nonatomic) WebViewController    *webVC;
+@property (strong, nonatomic) IntroViewController  * _Nullable introVC;
+@property (strong, nonatomic) SplashViewController * _Nullable splashVC;
+@property (strong, nonatomic) WebViewController    * _Nullable webVC;
 
 @property (assign, nonatomic) BOOL isSharingWebView;
 
-@property (copy, nonatomic) RTCJoinMeetingActionBlock  joinMeetingBlock;
+@property (copy, nonatomic) RTCJoinMeetingActionBlock _Nullable  joinMeetingBlock;
+- (void)startClockTimer;
 
 @end
 

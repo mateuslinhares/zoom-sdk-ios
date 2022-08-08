@@ -14,7 +14,7 @@
 
 #define kThumbTableViewCell  @"kThumbTableViewCell"
 
-@interface ThumbView ()<UITableViewDelegate, UITableViewDataSource>
+@interface ThumbView ()<UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) HorizontalTableView       * thumbTableView;
 @property (strong, nonatomic) UIButton                  * thumbHideButton;
 //@property (nonatomic) BOOL firstInit;
@@ -143,7 +143,6 @@
 
 - (void)dealloc {
     self.thumbTableView = nil;
-    [super dealloc];
 }
 
 - (HorizontalTableView*)thumbTableView
@@ -159,6 +158,11 @@
         _thumbTableView.showsVerticalScrollIndicator = NO;
         
         [_thumbTableView registerClass:[ThumbTableViewCell class] forCellReuseIdentifier:kThumbTableViewCell];
+        
+        UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+        lpgr.minimumPressDuration = 1.0;
+        lpgr.delegate = self;
+        [_thumbTableView addGestureRecognizer:lpgr];
     }
     
     return _thumbTableView;
@@ -224,7 +228,7 @@
     ThumbTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kThumbTableViewCell];
     if (cell == nil)
     {
-        cell = [[[ThumbTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:kThumbTableViewCell] autorelease];
+        cell = [[ThumbTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:kThumbTableViewCell];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 //    cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
@@ -288,6 +292,190 @@
     }
 }
 
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if(gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        CGPoint p = [gestureRecognizer locationInView:_thumbTableView ];
+        NSIndexPath *indexPath = [_thumbTableView indexPathForRowAtPoint:p];
+        if (indexPath == nil)
+            return;
+        
+        MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+        NSMutableArray *videoArray = [NSMutableArray arrayWithArray:[ms getInMeetingUserList]];
+        NSUInteger userID = [[videoArray objectAtIndex:indexPath.row] intValue];
+        MobileRTCMeetingUserInfo *userInfo = [ms userInfoByID:userID];
+        
+        // for test userInfo.
+        NSLog(@"isInterpreter->%@ getInterpreterActiveLanguage->%@", @(userInfo.isInterpreter), userInfo.interpreterActiveLanguage);
+        
+        NSString * roleString;
+        switch (userInfo.userRole) {
+            case MobileRTCUserRole_None:
+                roleString = @"Role:None";
+                break;
+            case MobileRTCUserRole_Host:
+                roleString = @"Role:Host";
+                break;
+            case MobileRTCUserRole_CoHost:
+                roleString = @"Role:CoHost";
+                break;
+            case MobileRTCUserRole_Attendee:
+                roleString = @"Role:Attendee";
+                break;
+            case MobileRTCUserRole_Panelist:
+                roleString = @"Role:Webinar_Panelist";
+                break;
+            case MobileRTCUserRole_BreakoutRoom_Moderator:
+                roleString = @"Role:BOMeeting_Moderator";
+                break;
+            default:
+                roleString = @"Role:None";
+                break;
+        }
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:roleString
+                                                                                            message:nil
+                                                                                     preferredStyle:UIAlertControllerStyleActionSheet];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Show video Size"
+                                                            style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction *action) {
+                                                                 CGSize size = [ms getUserVideoSize:userID];
+                                                                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"video size:w=%f,h=%f", size.width,size.height] delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+                                                                         [alert show];
+                                                            }]];
+        
+        
+        if ([ms isMeetingHost] || [ms isMeetingCoHost]) {
+            if (userInfo.audioStatus.audioType != MobileRTCAudioType_None) {
+                NSString *muteAudioString = [ms isUserAudioMuted:userID] ? @"Ask Unmute audio" : @"Mute Audio";
+                [alertController addAction:[UIAlertAction actionWithTitle:muteAudioString
+                                                                    style:UIAlertActionStyleDefault
+                                                                    handler:^(UIAlertAction *action) {
+                                                                    [ms muteUserAudio:[ms isUserAudioMuted:userID]?NO:YES withUID:userID];
+                                                                    }]];
+            }
+            
+            NSString *muteVideoString = [ms isUserVideoSending:userID] ? @"Stop video" : @"Ask start video";
+            [alertController addAction:[UIAlertAction actionWithTitle:muteVideoString
+                                                               style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction *action) {
+                                                                    if ([ms isUserVideoSending:userID]) {
+                                                                        [ms stopUserVideo:userID];
+                                                                    } else {
+                                                                        [ms askUserStartVideo:userID];
+                                                                    }
+                                                                 }]];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Change name to Test"
+                                                                style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction *action) {
+                                                                        [ms changeName:[NSString stringWithFormat:@"Test:%ld", indexPath.row] withUserID:userID];
+                                                                  }]];
+            if ([userInfo handRaised]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Lower the user hand"
+                                                                style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction *action) {
+                                                                        [ms lowerHand:userID];
+                                                                  }]];
+            }
+            
+            if (!userInfo.isCohost) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Remove the user"
+                                                                style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction *action) {
+                                                                        [ms removeUser:userID];
+                                                                  }]];
+            }
+            MobileRTCWaitingRoomService *ws = [[MobileRTC sharedRTC] getWaitingRoomService];
+            if ([ws isSupportWaitingRoom] && [ws isWaitingRoomOnEntryFlagOn]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Put in waiting room"
+                                                                style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction *action) {
+                                                                        [ws putInWaitingRoom:userID];
+                                                                  }]];
+            }
+        }
+        
+        if (!userInfo.isHost && [ms isMeetingHost]) {
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Make host"
+                                                            style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction *action) {
+                                                                    [ms makeHost:userID];
+                                                              }]];
+        }
+            
+        if (!userInfo.isHost && !userInfo.isCohost && [ms isMeetingHost] && [ms canBeCoHost:userID]) {
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Make co-host"
+                                                            style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction *action) {
+                                                                    [ms assignCohost:userID];
+                                                              }]];
+        }
+        
+        if (userInfo.isCohost && [ms isMeetingHost]) {
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Revoke co-host"
+            style:UIAlertActionStyleDefault
+              handler:^(UIAlertAction *action) {
+                    [ms revokeCoHost:userID];
+              }]];
+        }
+        
+        if ([ms isWebinarMeeting]) {
+            if (([ms isMeetingHost] || [ms isMeetingCoHost]) && userInfo.userRole == MobileRTCUserRole_Panelist) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"DePrompt the panelist to attendee"
+                style:UIAlertActionStyleDefault
+                  handler:^(UIAlertAction *action) {
+                        [ms dePromptPanelist2Attendee:userID];
+                  }]];
+            }
+        }
+        
+        if (![ms isPrivateChatDisabled]) {
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Send a private chat message"
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction *action) {
+                MobileRTCSendChatError error = [ms sendChatToUser:userID WithContent:@"This is a private chat message"];
+                NSLog(@"SendChat:sendChatToUser ---> %@", @(error));
+                                                            }]];
+        }
+        
+        NSLog(@"LiveTranscription: canAssignOthersToSendCC===>%@", @([ms canAssignOthersToSendCC]));
+        NSLog(@"LiveTranscription: canBeAssignedToSendCC===>%@", @([ms canBeAssignedToSendCC:userID]));
+        if([ms isMeetingSupportCC] && [ms isLiveTranscriptionFeatureEnabled] && [ms canAssignOthersToSendCC]) {
+            if ([ms canBeAssignedToSendCC:userID]) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"assign CC privilege"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                    BOOL ret = [ms assignCCPrivilege:userID];
+                    NSLog(@"assignCCPrivilege===> %@", @(ret));
+                                                                }]];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"withdraw CC privilege"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction *action) {
+                    BOOL ret = [ms withdrawCCPrivilege:userID];
+                    NSLog(@"withdrawCCPrivilege===> %@", @(ret));
+                                                                }]];
+            }
+        }
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)                                                                                 style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction *action) {
+                                    }]];
+        
+        UITableViewCell * cell = [_thumbTableView cellForRowAtIndexPath:indexPath];
+        UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+        if (popover)
+        {
+            popover.sourceView = cell;
+            popover.sourceRect = cell.bounds;
+            popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        }
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[appDelegate topViewController] presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self stopThumbViewVideo];
@@ -329,9 +517,7 @@
 {
     [videoView showAttendeeVideoWithUserID:userID];
     
-    CGSize size = [[[MobileRTC sharedRTC] getMeetingService] getUserVideoSize:userID];
-    if (CGSizeEqualToSize(size, CGSizeZero))
-        return;
+    NSLog(@"video view's user id: %@", @([videoView getUserID]));
     [videoView setVideoAspect:MobileRTCVideoAspect_PanAndScan];
 }
 

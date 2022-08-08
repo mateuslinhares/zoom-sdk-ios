@@ -17,7 +17,8 @@
 - (void)onJoinMeetingConfirmed
 {
     NSString *meetingNo = [[MobileRTCInviteHelper sharedInstance] ongoingMeetingNumber];
-    NSLog(@"onJoinMeetingConfirmed MeetingNo: %@", meetingNo);
+//    NSString *meetingPsw = [[[MobileRTC sharedRTC] getMeetingService] getMeetingPassword];
+    NSLog(@"MobileRTC onJoinMeetingConfirmed MeetingNo: %@", meetingNo);
 }
 
 - (void)onJoinMeetingInfo:(MobileRTCJoinMeetingInfo)info
@@ -39,28 +40,39 @@
 
 - (void)onSinkWebinarNeedRegister:(NSString *)registerURL
 {
-    NSLog(@"%@",registerURL);
+    NSLog(@"MobileRTC onSinkWebinarNeedRegister %@",registerURL);
 }
 
 - (void)onSinkJoinWebinarNeedUserNameAndEmailWithCompletion:(BOOL (^_Nonnull)(NSString * _Nonnull username, NSString * _Nonnull email, BOOL cancel))completion
 {
     if (completion)
     {
-        NSString * username = [NSString stringWithString:@"zoomtest"];
-        NSString * email = [NSString stringWithString:@"zoomtest@zoom.us"];
+        NSString *username = @"zoomtest";
+        NSString *email = @"zoomtest@zoom.us";
         BOOL ret = completion(username,email,NO);
-        NSLog(@"%zd",ret);
+        NSLog(@"MobileRTC onSinkJoinWebinarNeedUserNameAndEmailWithCompletion %@",@(ret));
     }
+}
+
+- (void)onSinkPanelistCapacityExceed
+{
+    NSLog(@"MobileRTC onSinkPanelistCapacityExceed");
 }
 
 - (void)onMeetingError:(MobileRTCMeetError)error message:(NSString*)message
 {
-    NSLog(@"onMeetingError:%zd, message:%@", error, message);
+    NSLog(@"MobileRTC onMeetingError:%zd, message:%@", error, message);
+    
+    if (error != 0) {
+        NSString *errorCode = [NSString stringWithFormat:@"Error Code:%@",@(error)];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorCode message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 - (void)onMeetingStateChange:(MobileRTCMeetingState)state
 {
-    NSLog(@"onMeetingStateChange:%d", state);
+    NSLog(@"MobileRTC onMeetingStateChange:%@", @(state));
     if (self.mainVC) {
         [self.mainVC onMeetingStateChange:state];
     }
@@ -70,8 +82,14 @@
     }
 }
 
+- (void)onMeetingParameterNotification:(MobileRTCMeetingParameter *_Nullable)meetingParam
+{
+    NSLog(@"MobileRTC onMeetingParameterNotification===> meetingType:%@ isViewOnly:%@ isAutoRecordingLocal:%@ isAutoRecordingCloud:%@ meetinNumber:%@ meetingTopic:%@ meetingHost:%@", @(meetingParam.meetingType), @(meetingParam.isViewOnly), @(meetingParam.isAutoRecordingLocal), @(meetingParam.isAutoRecordingCloud), @(meetingParam.meetingNumber), meetingParam.meetingTopic, meetingParam.meetingHost);
+}
+
 - (void)onMeetingReady
 {
+    NSLog(@"MobileRTC onMeetingReady");
     if (self.mainVC) {
         [self.mainVC onMeetingReady];
     }
@@ -149,31 +167,32 @@
 
 - (void)onSinkMeetingShowMinimizeMeetingOrBackZoomUI:(MobileRTCMinimizeMeetingState)state
 {
-    NSLog(@"onSinkMeetingShowMinimizeMeetingOrBackZoomUI %@",@(state));
+    NSLog(@"MobileRTC onSinkMeetingShowMinimizeMeetingOrBackZoomUI %@",@(state));
 }
 
 - (void)onSinkAttendeeChatPriviledgeChanged:(MobileRTCMeetingChatPriviledgeType)currentPrivilege
 {
-    NSLog(@"onSinkAttendeeChatPriviledgeChanged %@",@(currentPrivilege));
+    NSLog(@"MobileRTC onSinkAttendeeChatPriviledgeChanged %@",@(currentPrivilege));
 }
 
 #if 0
 - (void)onMeetingEndedReason:(MobileRTCMeetingEndReason)reason
 {
-    NSLog(@"onMeetingEndedReason %d", reason);
+    NSLog(@"MobileRTC onMeetingEndedReason %d", reason);
 }
 #endif
 
 #if 0
 - (void)onMicrophoneStatusError:(MobileRTCMicrophoneError)error
 {
-    NSLog(@"onMicrophoneStatusError %d", error);
+    NSLog(@"MobileRTC onMicrophoneStatusError %d", error);
 }
 #endif
 
 #if 0
 - (void)onJBHWaitingWithCmd:(JBHCmd)cmd
 {
+    NSLog(@"MobileRTC onJBHWaitingWithCmd->%@",@(cmd));
     if (self.mainVC) {
         [self.mainVC onJBHWaitingWithCmd:cmd];
     }
@@ -211,17 +230,7 @@
 
 - (void)onDialOutStatusChanged:(DialOutStatus)status
 {
-    NSLog(@"onDialOutStatusChanged: %zd", status);
-}
-#endif
-
-#pragma mark - Handle Session Key
-#if 0
-- (void)onWaitExternalSessionKey:(NSData*)key
-{
-    if (self.mainVC) {
-        [self.mainVC onWaitExternalSessionKey:key];
-    }
+    NSLog(@"MobileRTC onDialOutStatusChanged: %zd", status);
 }
 #endif
 
@@ -229,12 +238,12 @@
 #if 0
 - (void)onSendPairingCodeStateChanged:(MobileRTCH323ParingStatus)state MeetingNumber:(unsigned long long)meetingNumber
 {
-    NSLog(@"onSendPairingCodeStateChanged %zd", state);
+    NSLog(@"MobileRTC onSendPairingCodeStateChanged %zd", state);
 }
 
 - (void)onCallRoomDeviceStateChanged:(H323CallOutStatus)state
 {
-    NSLog(@"onCallRoomDeviceStateChanged %zd", state);
+    NSLog(@"MobileRTC onCallRoomDeviceStateChanged %zd", state);
 }
 #endif
 
@@ -242,28 +251,75 @@
 #if 0
 - (void)onZoomIdentityExpired
 {
-    NSLog(@"onZoomIdentityExpired");
+    NSLog(@"MobileRTC onZoomIdentityExpired");
 }
 
 #pragma mark - Closed Caption
-- (void)onClosedCaptionReceived:(NSString *)message
+- (void)onClosedCaptionReceived:(NSString *)message speakerId:(NSUInteger)speakerID msgTime:(NSDate *)msgTime
 {
-    NSLog(@"onClosedCaptionReceived : %@",message);
+    NSLog(@"MobileRTC onClosedCaptionReceived msg:%@-speaker_id:%@-msgTime:%@",message, @(speakerID), msgTime);
 }
 #endif
 
 #if 0
-- (void)onSubscribeUserFail:(NSInteger)errorCode size:(NSInteger)size userId:(NSUInteger)userId
+- (void)onSubscribeUserFail:(MobileRTCSubscribeFailReason)errorCode size:(NSInteger)size userId:(NSUInteger)userId
 {
-    NSLog(@"onSubscribeUserFail: %@ size:%@ userId:%@",@(errorCode),@(size),@(userId));
+    NSLog(@"MobileRTC onSubscribeUserFail: %@ size:%@ userId:%@",@(errorCode),@(size),@(userId));
 }
 #endif
-- (void)onSinkMeetingUserRaiseHand:(NSUInteger)userID {
-    NSLog(@"onSinkMeetingUserRaiseHand==%@", @(userID));
+
+- (void)onCheckCMRPrivilege:(MobileRTCCMRError)result {
+    NSLog(@"MobileRTC onCheckCMRPrivilege==%@", @(result));
 }
 
-- (void)onSinkMeetingUserLowerHand:(NSUInteger)userID {
-    NSLog(@"onSinkMeetingUserLowerHand==%@", @(userID));
+- (void)onRecordingStatus:(MobileRTCRecordingStatus)status {
+    NSLog(@"MobileRTC onRecordingStatus==%@", @(status));
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    MobileRTCMeetingSettings *settings = [[MobileRTC sharedRTC] getMeetingSettings];
+    if ([ms isMeetingChatLegalNoticeAvailable]
+        && MobileRTCRecording_Start == status
+        && [settings enableCustomMeeting]) {
+        NSString *LegalNoticePromoteTitle = [ms getChatLegalNoticesPrompt];
+        NSString *LegalNoticePromoteExplained = [ms getChatLegalNoticesExplained];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:LegalNoticePromoteTitle message:LegalNoticePromoteExplained delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+
+- (void)onLocalRecordingStatus:(NSInteger)userId status:(MobileRTCRecordingStatus)status {
+    NSLog(@"MobileRTC onLocalRecordingStatus==%@==%@", @(status),@(userId));
+    
+}
+
+#if 0
+- (void)onAskToEndOtherMeeting:(void (^_Nonnull)(BOOL cancel))completion {
+    NSLog(@"MobileRTC onAskToEndOtherMeeting");
+    completion(NO);
+}
+#endif
+
+- (void)onLiveStreamStatusChange:(MobileRTCLiveStreamStatus)liveStreamStatus {
+    NSLog(@"MobileRTC onLiveStreamStatusChange==%lu", liveStreamStatus);
+}
+
+- (void)onSpotlightVideoChange:(BOOL)on
+{
+    NSLog(@"MobileRTC onSpotlightVideoChange==%@", @(on));
+}
+
+- (void)onSpotlightVideoUserChange:(NSArray <NSNumber *>* _Nonnull)spotlightedUserList;
+{
+    NSLog(@"MobileRTC onSpotlightVideoUserChange==%@", spotlightedUserList);
+}
+
+- (void)onSinkMeetingActiveVideoForDeck:(NSUInteger)userID
+{
+    NSLog(@"MobileRTC onSinkMeetingActiveVideoForDeck==%@", @(userID));
+}
+
+- (void)onSinkLowerAllHands
+{
+    NSLog(@"MobileRTC onSinkLowerAllHands");
 }
 
 @end

@@ -21,7 +21,7 @@
         }
         BOOL mute = [ms isSendingMyVideo];
         MobileRTCVideoError error = [ms muteMyVideo:mute];
-        NSLog(@"MobileRTCVideoError:%d",error);
+        NSLog(@"MobileRTCVideoError:%@",@(error));
     }
 }
 

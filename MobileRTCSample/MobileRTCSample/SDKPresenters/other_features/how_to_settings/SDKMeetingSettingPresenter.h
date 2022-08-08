@@ -26,6 +26,12 @@
 
 - (void)onDisableCopyMeetinUrl:(BOOL)disabled;
 
+- (void)onProximityMonitoring:(BOOL)disabled;
+
+- (void)onSpeakerWhenInMeeting:(BOOL)disabled;
+
+- (void)onDisableClearWeb:(BOOL)disabled;
+
 - (void)disableCallIn:(BOOL)disabled;
 
 - (void)disableCallOut:(BOOL)disabled;
@@ -33,6 +39,8 @@
 - (void)disableMinimizeMeeting:(BOOL)disabled;
 
 - (void)faceBeautyEnable:(BOOL)enable;
+
+- (void)videoMirrorEnable:(BOOL)enable;
 
 - (void)enableMicOriginalInput:(BOOL)enable;
 
@@ -48,6 +56,8 @@
 
 - (void)setMeetingInviteHidden:(BOOL)hidden;
 
+- (void)setMeetingInviteUrlHidden:(BOOL)hidden;
+
 - (void)setMeetingChatHidden:(BOOL)hidden;
 
 - (void)setMeetingParticipantHidden:(BOOL)hidden;
@@ -62,6 +72,22 @@
 
 - (void)setQaButtonHidden:(BOOL)hidden;
 
+- (void)setCallinRoomSystemHidden:(BOOL)hidden;
+
+- (void)setCalloutRoomSystemHidden:(BOOL)hidden;
+
+- (void)setClaimHostWithHostKeyHidden:(BOOL)hidden;
+
+- (void)setCloseCaptionHidden:(BOOL)hidden;
+
+- (void)setPromoteToPanelistHidden:(BOOL)hidden;
+
+- (void)setChangeToAttendeeHiddenHidden:(BOOL)hidden;
+
+- (void)setReactionsOnMeetingUI:(BOOL)hidden;
+
+- (void)setRecordButtonHidden:(BOOL)hidden;
+
 - (void)setEnableKubi:(BOOL)enabled;
 
 - (void)setThumbnailInShare:(BOOL)changed;
@@ -75,5 +101,7 @@
 - (void)setEnableCustomMeeting:(BOOL)enableCustomMeeting;
 
 - (void)enableShowMyMeetingElapseTime:(BOOL)enable;
+
+- (void)setDisconnectAudioHidden:(BOOL)hidden;
 
 @end

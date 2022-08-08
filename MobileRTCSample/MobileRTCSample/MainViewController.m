@@ -22,10 +22,10 @@
 
 @property (assign, nonatomic) NSTimer  *clockTimer;
 
-@property (retain, nonatomic) SDKStartJoinMeetingPresenter *presenter;
+@property (strong, nonatomic) SDKStartJoinMeetingPresenter *presenter;
 
 #if kEnableSMSService
-@property (retain, nonatomic) MobileRTCVerifySMSHandler *verifyHandler;
+@property (strong, nonatomic) MobileRTCVerifySMSHandler *verifyHandler;
 #endif
 @end
 
@@ -50,7 +50,6 @@
     self.presenter = nil;
     
     [[MobileRTC sharedRTC] getMeetingService].customizedUImeetingDelegate = nil;
-    [super dealloc];
 }
 
 - (void)viewDidLoad
@@ -126,7 +125,7 @@
     
     CGFloat safeAreaTop = 0.0f;
     CGFloat safeAreaBottom = 0.0f;
-    if(fabs(bounds.size.height - 812.0f) < 0.01f) {
+    if(bounds.size.height > 812.0f) {
         safeAreaTop = 44.0f;
         safeAreaBottom = 34.0f;
     }
@@ -337,9 +336,9 @@
     alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
     [alert textFieldAtIndex:0].placeholder = @"#########";
     [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
-    
+    [alert textFieldAtIndex:0].text = @"";
+    [alert textFieldAtIndex:1].text = @"";
     [alert show];
-    [alert release];
 }
 
 - (void)onLeave:(id)sender
@@ -401,9 +400,6 @@
     nav.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self presentViewController:nav animated:YES completion:NULL];
-    
-    [nav release];
-    [vc release];
 }
 
 #pragma mark - Start/Join Meeting
@@ -496,18 +492,40 @@
 - (void)handleClockTimer:(NSTimer *)theTimer
 {
     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_VIDEO withDataFlow:YES];
-    MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_VIDEO withDataFlow:NO];
-    NSLog(@"Query Network Data [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_VIDEO withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_VIDEO withDataFlow:NO];
+        NSLog(@"Query Network Data video [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_Def withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_Def withDataFlow:NO];
+        NSLog(@"Query Network Data def [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_Chat withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_Chat withDataFlow:NO];
+        NSLog(@"Query Network Data chat [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_FT withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_FT withDataFlow:NO];
+        NSLog(@"Query Network Data file trans [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_AUDIO withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_AUDIO withDataFlow:NO];
+        NSLog(@"Query Network Data audio [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
+    {
+        MobileRTCNetworkQuality sendQuality = [ms queryNetworkQuality:MobileRTCComponentType_AS withDataFlow:YES];
+        MobileRTCNetworkQuality receiveQuality = [ms queryNetworkQuality:MobileRTCComponentType_AS withDataFlow:NO];
+        NSLog(@"Query Network Data as [sending: %@, receiving: %@]...", @(sendQuality), @(receiveQuality));
+    }
 }
 
 #if kEnableSMSService
 #pragma mark - sms service notification -
-- (void)onNeedRealNameAuth:(NSString *)bindPhoneUrl signupUrl:(NSString *)signupUrl
-{
-    NSLog(@"bindPhoneUrl:%@, signupUrl: %@", bindPhoneUrl, signupUrl);
-}
-
 - (void)onNeedRealNameAuth:(NSArray<MobileRTCRealNameCountryInfo *> *)supportCountryList privacyURL:(NSString *)privacyUrl retrieveHandle:(MobileRTCRetrieveSMSHandler *)handle
 {
     NSLog(@"Country List:%@, privacyUrl: %@, sendSMSHandle: %@", supportCountryList, privacyUrl, handle);
@@ -516,7 +534,7 @@
     }
 }
 
-- (void)onRetrieveSMSVerificationCodeResultNotification:(MobileRTCSMSServiceErr)result verifyHandle:(MobileRTCVerifySMSHandler *)handler
+- (void)onRetrieveSMSVerificationCodeResultNotification:(MobileRTCSMSRetrieveResult)result verifyHandle:(MobileRTCVerifySMSHandler *)handler
 {
     NSLog(@"send SMS cmd result %@, verify handle %@", @(result), handler);
     self.verifyHandler = handler;
@@ -527,13 +545,16 @@
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         alert.tag = 10023;
         [alert show];
-        [alert release];
     });
 }
 
-- (void)onVerifySMSVerificationCodeResultNotification:(MobileRTCSMSServiceErr)result
+- (void)onVerifySMSVerificationCodeResultNotification:(MobileRTCSMSVerifyResult)result
 {
     NSLog(@"verify sms result %@", @(result));
+    if (result != MobileRTCSMSVerifyResult_Succ) {
+        MobileRTCRetrieveSMSHandler *smsHandler = [[[MobileRTC sharedRTC] getSMSService] getResendSMSVerificationCodeHandler];
+        [smsHandler cancelAndLeaveMeeting];
+    }
 }
 #endif
 
@@ -570,19 +591,47 @@
                 NSLog(@"stopDirectShare==>%@", @(stopDirectShare));
             }]];
 
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
-                if (handler) {
-                    [handler TryWithMeetingNumber:alertController.textFields.firstObject.text];
-                }
-            }]];
+            if (handler) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+                    if (handler) {
+                        [handler TryWithPairingCode:alertController.textFields.firstObject.text];
+                    }
+                }]];
+            }
 
             [self presentViewController:alertController animated:true completion:nil];
-            [alertController release];
         }
             break;
         case MobileRTCDirectShareStatus_WrongMeetingID_Or_SharingKey:
             // hide connecting progress view
             // sample show tips
+            break;
+        case MobileRTCDirectShareStatus_Need_Input_New_ParingCode:
+        {
+            // hide connecting progress view on sample
+            // input pairingCode again
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"This step is required for users on a different network for additional security measures" preferredStyle:UIAlertControllerStyleAlert];
+           
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.placeholder = @"new pairingCode";
+                textField.text = @"";
+            }];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                BOOL stopDirectShare = [[[MobileRTC sharedRTC] getDirectShareService] stopDirectShare];
+                NSLog(@"stopDirectShare==>%@", @(stopDirectShare));
+            }]];
+
+            if (handler) {
+                [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+                    if (handler) {
+                        [handler TryWithPairingCode:alertController.textFields.firstObject.text];
+                    }
+                }]];
+            }
+
+            [self presentViewController:alertController animated:true completion:nil];
+        }
             break;
         default:
             break;

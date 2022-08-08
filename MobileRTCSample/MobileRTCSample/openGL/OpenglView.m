@@ -321,7 +321,7 @@ TexCoordOut = TexCoordIn;\
     
     void *blackData = malloc((width * height * 3 + 1) / 2);
     if (blackData) {
-        memset(blackData, 0x0, (width * height * 3 + 1) / 2);
+        memset(blackData, 0x0, (width * height * 3 + 1) / 2);//checked safe
     }
     
     [EAGLContext setCurrentContext:_glContext];
@@ -394,7 +394,7 @@ TexCoordOut = TexCoordIn;\
 //    if (nowtime.tv_sec != _time.tv_sec)
 //    {
 //        printf("视频 %ld 帧率:   %ld\n", self.tag, (long)_frameRate);
-//        memcpy(&_time, &nowtime, sizeof(struct timeval));
+//        memcpy(&_time, &nowtime, sizeof(struct timeval));//checked safe
 //        _frameRate = 1;
 //    }
 //    else

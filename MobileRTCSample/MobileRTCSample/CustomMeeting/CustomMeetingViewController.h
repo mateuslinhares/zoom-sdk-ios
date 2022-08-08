@@ -29,7 +29,7 @@
 @property (assign, nonatomic) BOOL                      isFullScreenMode;
 @property (assign, nonatomic) NSInteger                 pinUserId;
 @property (assign, nonatomic) CGAffineTransform         oriTransform;
-@property (retain, nonatomic) UIPanGestureRecognizer    * panGesture;
+@property (strong, nonatomic) UIPanGestureRecognizer    * panGesture;
 
 @property (strong, nonatomic) NSMutableArray                * vcArray;
 @property (strong, nonatomic) VideoViewController           * videoVC;
