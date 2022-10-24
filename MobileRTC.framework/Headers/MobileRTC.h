@@ -21,13 +21,13 @@
 #import <MobileRTC/MobileRTCMeetingService+VirtualBackground.h>
 #import <MobileRTC/MobileRTCMeetingService+Interpretation.h>
 #import <MobileRTC/MobileRTCMeetingService+BO.h>
+#import <MobileRTC/MobileRTCMeetingService+Reaction.h>
+#import <MobileRTC/MobileRTCMeetingService+LiveTranscription.h>
 #import <MobileRTC/MobileRTCMeetingSettings.h>
 #import <MobileRTC/MobileRTCInviteHelper.h>
-#import <MobileRTC/MobileRTCPremeetingService.h>
 #import <MobileRTC/MobileRTCRoomDevice.h>
 #import <MobileRTC/MobileRTCMeetingUserInfo.h>
 #import <MobileRTC/MobileRTCMeetingChat.h>
-#import <MobileRTC/MobileRTCE2EMeetingKey.h>
 #import <MobileRTC/MobileRTCMeetingDelegate.h>
 #import <MobileRTC/MobileRTCVideoView.h>
 #import <MobileRTC/MobileRTCMeetingActionItem.h>
@@ -76,6 +76,10 @@
  @brief [Optional] If you use screen share, you need create group id in your apple developer account, and setup here.
  */
 @property (nonatomic, copy) NSString                        * _Nullable appGroupId;
+/*!
+ @brief [Optional] If you use direct screen share, you need create replaykit bundle identifier in your apple developer account, and setup here.
+ */
+@property (nonatomic, copy) NSString                        * _Nullable replaykitBundleIdentifier;
 @end
 
 /*!
@@ -85,27 +89,6 @@
  @warning The user can only obtain SDK configuration by initializing the class.  
  */
 @interface MobileRTC : NSObject
-{
-    NSString               *_mobileRTCDomain;
-    NSString               *_mobileRTCResPath;
-    NSString               *_mobileRTCCustomLocalizableName;
-    MobileRTCMeetingService         *_meetingService;
-    MobileRTCMeetingSettings        *_meetingSettings;
-    
-    MobileRTCAuthService            *_authService;
-    MobileRTCPremeetingService      *_premeetingService;
-    
-    MobileRTCAnnotationService      *_annotationService;
-    
-    MobileRTCRemoteControlService   *_remoteControlService;
-    MobileRTCWaitingRoomService     *_waitingRoomService;
-    
-    MobileRTCSMSService             *_smsService;
-    MobileRTCDirectShareService     *_directShareService;
-    
-    MobileRTCVideoSourceHelper      *_videoSourceHelper;
-}
-
 /*!
  @brief MobileRTC domain, read-only.  
  */
@@ -190,13 +173,6 @@
 - (MobileRTCAuthService * _Nullable)getAuthService;
 
 /*!
- @brief Get the default pre-meeting service. 
- @warning Pre-meeting Service will be called once the user logged in with a work email, it is used to schedule/edit/list/delete a meeting.
- @return The preconfigured pre-meeting service.
- */
-- (MobileRTCPremeetingService * _Nullable)getPreMeetingService;
-
-/*!
  @brief Get the default meeting service.  
  @return The default meeting service.  
  */
@@ -239,11 +215,17 @@
 - (MobileRTCDirectShareService * _Nullable)getDirectShareService;
 
 /*!
+@brief Get the video source helper.@see MobileRTCVideoSourceHelper
+@return The object of MobileRTCVideoSourceHelper.
+*/
+- (MobileRTCVideoSourceHelper * _Nullable)getVideoSourceHelper;
+
+/*!
  @brief Get the languages supported by MobileRTC.   
  @warning The languages supported by MobileRTC are English, German, Spanish, Japanese, French, Simplified Chinese, Traditional Chinese.
  @return An array of languages supported by MobileRTC.
  */
-- (NSArray * _Nonnull)supportedLanguages;
+- (NSArray <NSString *> * _Nonnull)supportedLanguages;
 
 /*!
  @brief Set the MobileRTC language.
@@ -299,11 +281,5 @@
  @warning It is necessary to call the method after auth success.
  */
 - (BOOL)hasRawDataLicense;
-
-/*!
-@brief Get the video source helper.@see MobileRTCVideoSourceHelper
-@return The object of MobileRTCVideoSourceHelper.
-*/
-- (MobileRTCVideoSourceHelper * _Nullable)getVideoSourceHelper;
 
 @end

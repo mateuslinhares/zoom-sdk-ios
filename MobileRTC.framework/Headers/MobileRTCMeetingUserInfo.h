@@ -119,9 +119,13 @@ typedef NS_ENUM(NSUInteger, MobileRTCFeedbackType) {
  */
 @property (nonatomic, assign) NSUInteger       userID;
 /*!
- @brief The ID of participantID.
+ @brief Determine if the information corresponds to the current user.
  */
-@property (nonatomic, retain) NSString* _Nullable       participantID;
+@property (nonatomic, assign) BOOL             isMySelf;
+/*!
+ @brief The value of customerKey.
+ */
+@property (nonatomic, retain) NSString* _Nullable       customerKey;
 /*!
  @brief The screen name of user.
  */
@@ -149,7 +153,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCFeedbackType) {
 /*!
  @brief User enter the waiting room when joins the meeting.
  */
-@property (nonatomic, assign) BOOL             inSilentMode;
+@property (nonatomic, assign) BOOL             inWaitingRoom;
 /*!
  @brief Query if the current user is the co-host.
  */
@@ -174,7 +178,18 @@ typedef NS_ENUM(NSUInteger, MobileRTCFeedbackType) {
  @brief The feedback type from the user.
  */
 @property (nonatomic, assign) MobileRTCFeedbackType  feedbackType;
-
+/*!
+ @brief the type of role of the user specified by the current information.
+ */
+@property (nonatomic, assign) MobileRTCUserRole  userRole;
+/*!
+ @brief Determine if user is interpreter.
+ */
+@property (nonatomic, assign) BOOL             isInterpreter;
+/*!
+ @brief Get interpreter active language.
+ */
+@property (nonatomic, retain) NSString* _Nullable   interpreterActiveLanguage;
 @end
 
 /*!
@@ -186,8 +201,16 @@ typedef NS_ENUM(NSUInteger, MobileRTCFeedbackType) {
  */
 @property (nonatomic, assign) NSUInteger userID;
 /*!
+ @brief Determine if the information corresponds to the current user.
+ */
+@property (nonatomic, assign) BOOL             isMySelf;
+/*!
  @brief The screen name of user.
  */
 @property (nonatomic, retain) NSString * _Nullable userName;
+/*!
+ @brief the type of role of the user specified by the current information.
+ */
+@property (nonatomic, assign) MobileRTCUserRole  userRole;
 
 @end

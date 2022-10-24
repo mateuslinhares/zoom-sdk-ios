@@ -38,11 +38,6 @@
 - (MobileRTCBOData * _Nullable)getDataHelper;
 
 /*!
-@brief is user are host in mast meeting.
-*/
-- (BOOL)isMasterMeetingHost;
-
-/*!
 @brief is BO meeting started.
 */
 - (BOOL)isBOMeetingStarted;
@@ -56,6 +51,12 @@
 @brief is in bo meeting right now.
 */
 - (BOOL)isInBOMeeting;
+
+/*!
+@brief Get current BO status
+@return The return value is a enum for bo status.
+*/
+- (MobileRTCBOStatus)getBOStatus;
 
 @end
 

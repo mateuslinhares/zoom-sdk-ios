@@ -12,11 +12,10 @@
  @brief image item property
  */
 @interface MobileRTCVirtualBGImageInfo : NSObject
-
 /*!
- @brief None item if yes.
+ @brief virtual background image type.
  */
-@property(nonatomic, assign) BOOL isNone;
+@property(nonatomic, assign) MobileRTCVBType vbType;
 
 /*!
  @brief current using image item if yes.
@@ -104,12 +103,13 @@
  @param enable or disable.
  @return result of enable green virtual background.
  @warning only iPad support Virtual background GreenScreen, iPhone does not support the feature.
+ @warning need call "startPreviewWithFrame:" to get the preview View, and shown in your UI hierarchy. Then select the point in preview view. We will using the color of your selected(point of the preview) to calculate the background.
  */
 - (MobileRTCMeetError)enableGreenVB:(BOOL)enable;
 
 /*!
  @brief Select the point that regard as background.
- @param point in preview view.
+ @param point point in preview view.
  @return result of set background point action.
  @warning only iPad support Virtual background GreenScreen, iPhone does not support the feature.
  */
